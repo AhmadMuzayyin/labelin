@@ -1,0 +1,223 @@
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.body {
+  flex: auto 1 0;
+  padding-top: 3vh;
+}
+
+.radioform > .radiogroup > input[type=radio] {
+  position: absolute;
+  visibility: hidden;
+  display: none;
+  transition: all 200ms ease-in-out;
+}
+
+.radioform > .radiogroup > label {
+  color: #9a929e;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 20px;
+  margin-bottom: 0 !important;
+}
+
+.radioform > .radiogroup > input[type=radio]:checked + label {
+  color: #ccc8ce !important;
+  background: #525252 !important;
+  transition: all 100ms ease-in-out;
+}
+
+.radioform > .radiogroup > input[type=radio]:not(:focus):hover + label:not(:focus):hover {
+  color: black;
+  background: #d9d9d9;
+  transition: all 100ms ease-in-out;
+}
+
+.radioform > .radiogroup > label + .radioform > .radiogroup > input[type=radio] + .radioform > .radiogroup > label {
+  border-left: solid 3px #525252;
+}
+
+.radioform .radiogroup {
+  border: solid 3px #525252;
+  display: inline-block;
+  margin: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#countdownkolom {
+  margin-left: 1vh;
+  display: none;
+}
+
+.break {
+  background-color: #3664e3 !important;
+  animation: breakglow 1s infinite alternate;
+  transition: all 200ms ease-in;
+}
+
+.runningout {
+  background-color: red !important;
+  transition: all 200ms ease-in;
+  animation: warningglow 500ms infinite alternate;
+}
+
+@keyframes warningglow {
+  from {
+    box-shadow: 0 0 4px -4px red;
+  }
+  to {
+    box-shadow: 0 0 4px 4px red;
+  }
+}
+
+@keyframes breakglow {
+  from {
+    box-shadow: 0 0 2px -2px #3664e3;
+  }
+  to {
+    box-shadow: 0 0 2px 2px #3664e3;
+  }
+}
+
+#loader {
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  margin: auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  display: none;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.text-greeting {
+  display: block;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: all .1s linear;
+  transition: all .1s linear;
+}
+
+input.switchnya:checked + .slider {
+  background-color: #125d98;
+}
+
+input.switchnya:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input.switchnya:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.card-header,.card-body,.card-footer,.card {
+  transition: all 200ms linear;
+}
+
+.dark, .dark > #body > div > div > div > form > div > div.card-header,.dark > #body > div > div > div > form > div > div.card-body, .dark > #body > div > div > div > form > div > div.card-footer,.dark > #body > div > div > div > form > div > #bodycard > table{
+  transition: all 200ms linear;
+  background-color: #343a40 !important;
+  color: #e6e6e6;
+  border-color: #6f6f6f !important;
+}
+.dark > #body > div > div > div > form > div.card {
+  transition: all 200ms linear;
+  border: 1px solid rgb(0 0 0 / 56%);
+}
+
+.switchwrapper {
+  position: absolute;
+  z-index: 9999;
+  top: 1vh;
+  right: 27em;
+  transform: scale(0.7);
+}
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .text-greeting {
+    display: none;
+  }
+
+  .switchwrapper {
+    top: 1vh;
+    right: 33px;
+    transform: scale(0.7);
+  }
+
+  .body {
+    padding-top: 5vh !important;
+  }
+
+  .radioform > .radiogroup > label {
+    color: #9a929e;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 6px 2vh;
+    margin-bottom: 0 !important;
+  }
+}

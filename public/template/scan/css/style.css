@@ -1,0 +1,93 @@
+ul > .brand
+{
+	color: white;
+	font-size: 35px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+
+
+ul > .cart
+{
+	float: right;
+}
+
+ul > .login
+{
+	float: right;
+}
+
+nav
+{
+	z-index: 10000;
+	top: 0;
+ 	position: sticky !important;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+  display: block;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: #c9c7ac;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border-bottom: solid 6px transparent;
+  transition: 0.3s;
+}
+
+li a:hover {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: solid 6px #0078f2;
+  transition: 0.3s;
+}
+
+.top-section
+{
+	background-image: url(../web-images/bannerbesarv2flat.png);
+	background-size: cover;
+	height: 690px;
+	width: 100%;
+}
+
+.landing
+{
+	position: absolute;
+	margin-left: 130px;
+	margin-top: 190px;
+}
+
+.landing > .judul-landing
+{
+	color: #fff;	
+	font-weight: 700;
+	font-size: 60px;
+	margin-bottom: 30px;	
+}
+
+.landing > p
+{
+	color: #fff;
+	width: 70%;
+	font-size: 19px;
+}
+
+.software-gallery
+{
+	width: 100%;
+	display: inline-block;
+}
+
