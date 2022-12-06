@@ -1,0 +1,43 @@
+body {
+    font-family: Urbanist, Arial, Helvetica, sans-serif;
+}
+
+.color-main {
+    color: #827AF3;
+}
+
+.bg-main {
+    background-color: #827AF3;
+}
+
+.gradient-main {
+    background: rgb(180, 122, 243);
+    background: linear-gradient(90deg, rgba(180, 122, 243, 1) 0%, rgba(130, 122, 243, 1) 100%);
+}
+
+.btn-main, .btn-main:hover {
+    color: white;
+    background-color: #827AF3;
+}
+
+.content {
+    border-top-left-radius: 1.25rem;
+    border-top-right-radius: 1.25rem;
+    margin-top: -1rem;
+}
+
+.rounded-4 {
+    border-radius: .65rem;
+}
+
+.fw-medium {
+    font-weight: 500;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+.fw-bold {
+    font-weight: 700;
+}

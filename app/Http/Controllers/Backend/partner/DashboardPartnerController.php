@@ -32,18 +32,6 @@ class DashboardPartnerController extends Controller
                     ->where('product_scanneds.created_at', '<=', $akhir)
                     ->where('request_qrs.partner_id', session()->get('id-partner'))
                     ->count();
-                $totalGender = DB::table('product_scanneds')
-                    ->join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
-                    ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
-                    ->join('products', 'request_qrs.product_id', '=', 'products.id')
-                    ->join('businesses', 'products.business_id', '=', 'businesses.id')
-                    ->join('categories', 'products.category_id', '=', 'categories.id')
-                    ->select('gender', DB::raw('count(*) as total_gender', 'request_qrs.partner_id'))
-                    ->where('product_scanneds.created_at', '>=', $awal)
-                    ->where('product_scanneds.created_at', '<=', $akhir)
-                    ->where('request_qrs.partner_id', session()->get('id-partner'))
-                    ->groupBy('gender')
-                    ->get();
                 break;
             default:
                 $totalProductScanned = DB::table('product_scanneds')
@@ -51,16 +39,6 @@ class DashboardPartnerController extends Controller
                     ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
                     ->where('request_qrs.partner_id', session()->get('id-partner'))
                     ->count();
-                $totalGender = DB::table('product_scanneds')
-                    ->join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
-                    ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
-                    ->join('products', 'request_qrs.product_id', '=', 'products.id')
-                    ->join('businesses', 'products.business_id', '=', 'businesses.id')
-                    ->join('categories', 'products.category_id', '=', 'categories.id')
-                    ->select('gender', DB::raw('count(*) as total_gender', 'request_qrs.partner_id'))
-                    ->where('request_qrs.partner_id', session()->get('id-partner'))
-                    ->groupBy('gender')
-                    ->get();
                 break;
         }
 
@@ -76,7 +54,6 @@ class DashboardPartnerController extends Controller
             'totalProduct',
             'totalRequestQr',
             'totalProductScanned',
-            'totalGender',
             'totalCategory',
             'topDuplicate'
         ));
@@ -91,7 +68,7 @@ class DashboardPartnerController extends Controller
         )
             ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
             ->join('products', 'request_qrs.product_id', '=', 'products.id')
-            ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
+            ->get(['serial_number', 'products.name as nama_produk', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
             ->groupBy('id_qrcode');
         $user = array();
         foreach ($userscan as $value) {
@@ -109,7 +86,7 @@ class DashboardPartnerController extends Controller
             ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
             ->join('products', 'request_qrs.product_id', '=', 'products.id')
             ->where('request_qrs.partner_id', session()->get('id-partner'))
-            ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
+            ->get(['serial_number', 'products.name as nama_produk', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
             ->groupBy('id_qrcode');
         $user = array();
         foreach ($userscan as $value) {
@@ -124,8 +101,6 @@ class DashboardPartnerController extends Controller
         }
 
         $dataTop = array();
-        $batas = count($user);
-        $in = 0;
         foreach ($user as $key => $item) {
             for ($i = 0; $i < 3; $i++) {
                 if ($item['jml_scan'] == $sn[$i]) {

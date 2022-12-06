@@ -34,30 +34,14 @@
                                         <select class="form-select @error('name') is-invalid @enderror" name="name"
                                             id="name" aria-label="Default select example" required>
                                             <option value="">Pilih jenis sosial media</option>
-                                            <option value="Instagram"
-                                                {{ $sosmed->name == 'Instagram' ? 'selected' : '' }}>
-                                                Instagram</option>
-                                            <option value="Tiktok Shop" {{ $sosmed->name == 'Tiktok Shop' ? 'selected' : '' }}>Tiktok Shop</option>
-                                            <option value="Whatsapp" {{ $sosmed->name == 'Tiktok Shop' ? 'selected' : '' }}>Whatsapp</option>
+                                            <option value="Instagram" {{ $sosmed->name == 'Instagram' ? 'selected' : '' }}>Instagram</option>
+                                            <option value="Facebook" {{ $sosmed->name == 'Facebook' ? 'selected' : '' }}>Facebook</option>
+                                            <option value="Twitter" {{ $sosmed->name == 'Twitter' ? 'selected' : '' }}>Twitter</option>
+                                            <option value="Linkedin" {{ $sosmed->name == 'Linkedin' ? 'selected' : '' }}>Linkedin</option>
+                                            <option value="Tiktok" {{ $sosmed->name == 'Tiktok' ? 'selected' : '' }}>Tiktok</option>
+                                            <option value="Store" {{ $sosmed->name == 'Store' ? 'selected' : '' }}>Store</option>
                                         </select>
                                         @error('name')
-                                            <span class="text-danger">
-                                                {{ $message }}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-2">
-                                    <div class="form-group">
-                                        <label for="icon">{{ __('Icon') }}</label>
-                                        <select class="form-select @error('icon') is-invalid @enderror" name="icon"
-                                            id="icon" required>
-                                            <option value="">Pilih icon sosial media</option>
-                                            <option value='<i class="fa-brands fa-instagram"></i>' {{ $sosmed->name == 'Instagram' ? 'selected' : '' }}>Instagram</option>
-                                            <option value='<i class="fa-brands fa-tiktok"></i>' {{ $sosmed->name == 'Tiktok Shop' ? 'selected' : '' }}>Tiktok Shop</option>
-                                            <option value='<i class="fa-brands fa-whatsapp"></i>' {{ $sosmed->name == 'Whatsapp' ? 'selected' : '' }}>Whatsapp</option>
-                                        </select>
-                                        @error('icon')
                                             <span class="text-danger">
                                                 {{ $message }}
                                             </span>

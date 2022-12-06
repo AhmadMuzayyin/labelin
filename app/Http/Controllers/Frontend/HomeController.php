@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\RegisterPartnerRequest;
 use Illuminate\Support\Facades\{Hash, Session, Validator, DB};
-use App\Models\{Kontak, ProductScanned, RequestQr, SettingWeb};
+use App\Models\{Kontak, ProductScanned, ProdukRating, QrCode, RequestQr, SettingWeb};
 
 class HomeController extends Controller
 {
@@ -61,7 +61,7 @@ class HomeController extends Controller
         }
 
         return view('pageFrontEnd.scan', [
-            'setting_web' => $this->settings,
+            'setting_web' => $this->settings
         ]);
     }
 
@@ -153,9 +153,6 @@ class HomeController extends Controller
     public function cek_produk(Request $request)
     {
         $request->validate([
-            'nama_lengkap' => ['required'],
-            'tgl_lahir' => ['required'],
-            'jk_kelamin' => ['required'],
             'latitude' => ['required'],
             'longitude' => ['required'],
         ]);
@@ -164,6 +161,8 @@ class HomeController extends Controller
             ->where('pin', '=', $pin)
             ->where('serial_number', '=', $request->sn)
             ->first();
+        // get ipv4 address client
+        $ipClient = \Request::getClientIp(true);
         // ambil data produk
         if ($cek) {
             $produk = DB::table('qr_codes')
@@ -173,7 +172,7 @@ class HomeController extends Controller
                 ->join('businesses', 'products.business_id', 'businesses.id')
                 ->where('qr_codes.serial_number', $request->sn)
                 ->where('qr_codes.pin', $pin)
-                ->select('products.name as nama_produk', 'categories.name as nama_kategori', 'businesses.logo as logo_brand', 'businesses.brand as nama_brand')
+                ->select('products.name as nama_produk', 'categories.name as nama_kategori', 'businesses.logo as logo_brand', 'businesses.brand as nama_brand', 'products.bpom', 'products.photo', 'products.id')
                 ->first();
 
             // cek duplicate data
@@ -183,15 +182,26 @@ class HomeController extends Controller
                 if ($get_QR) {
                     if ($get_QR->qr_code->status == true) {
                         //inser ke table scan
-                        DB::table('product_scanneds')->insert([
-                            'qr_code_id' => $cek->id,
-                            'fullname' => $request->nama_lengkap,
-                            'birth_date' => $request->tgl_lahir,
-                            'gender' => $request->jk_kelamin,
-                            'lat' => $request->latitude,
-                            'long' => $request->longitude,
-                            'created_at' => date('Y-m-d H:i:s'),
-                        ]);
+                        $getVisitor = ProductScanned::where('qr_code_id', $cek->id)->where('visitor', $ipClient)->first();
+                        if (isset($getVisitor)) {
+                            if ($getVisitor->visitor != $ipClient) {
+                                DB::table('product_scanneds')->insert([
+                                    'qr_code_id' => $cek->id,
+                                    'lat' => $request->latitude,
+                                    'long' => $request->longitude,
+                                    'visitor' => $ipClient,
+                                    'created_at' => date('Y-m-d H:i:s'),
+                                ]);
+                            }
+                        } else {
+                            DB::table('product_scanneds')->insert([
+                                'qr_code_id' => $cek->id,
+                                'lat' => $request->latitude,
+                                'long' => $request->longitude,
+                                'visitor' => $ipClient,
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ]);
+                        }
                         Alert::toast('Congratulations !!! Produk Terdaftar', 'warning');
                         return view('pageFrontEnd.duplicate', [
                             'setting_web' => $this->settings,
@@ -205,25 +215,39 @@ class HomeController extends Controller
             }
 
             //inser ke table scan
-            DB::table('product_scanneds')->insert([
-                'qr_code_id' => $cek->id,
-                'fullname' => $request->nama_lengkap,
-                'birth_date' => $request->tgl_lahir,
-                'gender' => $request->jk_kelamin,
-                'lat' => $request->latitude,
-                'long' => $request->longitude,
-                'created_at' => date('Y-m-d H:i:s'),
-            ]);
+            $getVisitor = ProductScanned::where('qr_code_id', $cek->id)->where('visitor', $ipClient)->first();
+            if (isset($getVisitor)) {
+                if ($getVisitor->visitor != $ipClient) {
+                    DB::table('product_scanneds')->insert([
+                        'qr_code_id' => $cek->id,
+                        'lat' => $request->latitude,
+                        'long' => $request->longitude,
+                        'visitor' => $ipClient,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                }
+            } else {
+                DB::table('product_scanneds')->insert([
+                    'qr_code_id' => $cek->id,
+                    'lat' => $request->latitude,
+                    'long' => $request->longitude,
+                    'visitor' => $ipClient,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ]);
+            }
             // get sosmed link
             $getPartnerId = RequestQrCode::firstWhere('id', $cek->request_qr_id);
             $sosmed = Sosmed::where('partner_id', $getPartnerId->id)->get();
+            $rating = DB::table('produk_ratings')->where('product_id', $produk->id)->first();
             Alert::toast('Congratulations !!! Produk Terdaftar', 'success');
             return view('pageFrontEnd.ada', [
                 'setting_web' => $this->settings,
                 'sn' => $request->sn,
                 'pin' => $pin,
                 'produk' => $produk,
-                'sosmed' => $sosmed
+                'sosmed' => $sosmed,
+                'rating' => $rating,
+                'ipClient' => $ipClient
             ]);
         } else {
             Alert::toast('Warning !!! Produk Tidak Terdaftar', 'error');
@@ -233,6 +257,42 @@ class HomeController extends Controller
                 'pin' => $pin,
             ]);
         }
+    }
+
+    public function rating(Request $req, $id)
+    {
+        // get ipv4 address client
+        $ipClient = \Request::getClientIp(true);
+        $produk = QrCode::join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
+            ->join('products', 'request_qrs.product_id', '=', 'products.id')
+            ->where('qr_codes.serial_number', $id)
+            ->select('products.id')
+            ->first();
+        $cek = ProdukRating::where('product_id', $produk->id)->first();
+        if (isset($cek)) {
+            // if ($cek->visitor) {
+            if ($cek->visitor != $ipClient && $produk->id != $cek->product_id) {
+                DB::table('produk_ratings')->insert([
+                    'product_id' => $produk->id,
+                    'produk_rated' => doubleval($req->rating),
+                    'visitor' => $ipClient,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        } else {
+            DB::table('produk_ratings')->insert([
+                'product_id' => $produk->id,
+                'produk_rated' => doubleval($req->rating),
+                'visitor' => $ipClient,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+        $respon = [
+            'message' => $cek->visitor == $ipClient && $produk->id == $cek->product_id ? 'Terimkasih, anda sudah melakukan rating' : 'Terimakasih atas rating anda',
+        ];
+        return response()->json($respon, 200);
     }
 
     public function policy()

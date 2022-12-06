@@ -1,4 +1,6 @@
 <?php
+
+use App\Models\QrCode;
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('set_active')) {
@@ -15,6 +17,15 @@ if (!function_exists('set_active')) {
                 return 'active';
             }
         }
-        // return request()->routeIs($uri) ? 'active' : '';
+    }
+    function getProduk($sn)
+    {
+        $produk = QrCode::join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
+            ->join('products', 'request_qrs.product_id', '=', 'products.id')
+            ->join('businesses', 'products.business_id', '=', 'businesses.id')
+            ->where('qr_codes.serial_number', $sn)
+            ->select(['logo'])
+            ->first();
+        return $produk;
     }
 }

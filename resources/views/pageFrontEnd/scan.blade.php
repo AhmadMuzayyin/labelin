@@ -2,127 +2,19 @@
 <html lang="en">
 
 <head>
-    <title>Scan Produk</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="icon" href="{{ asset('template/scan/assets/web-images/lock.png') }}" sizes="16x16" type="image/png">
+    <title>Cek Produk</title>
+    <link rel="shortcut icon" href="{{ url('template/frontend/images/icon.png') }}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url('assets/css/main.css') }}">
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
-
-        * {
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #86E7BB;
-        }
-
-        .card {
-            width: 350px;
-            cursor: pointer;
-            border-radius: 10px;
-        }
-
-        .image img {
-            transition: all 0.5s
-        }
-
-        .image:hover img {
-            transform: scale(1.5)
-        }
-
-        .btnImage {
-            height: 140px;
-            width: 140px;
-            border-radius: 50%
-        }
-
-        .name {
-            font-size: 22px;
-            font-weight: bold
-        }
-
-        .idd {
-            font-size: 14px;
-            font-weight: 600
-        }
-
-        .idd1 {
-            font-size: 12px
-        }
-
-        .number {
-            font-size: 22px;
-            font-weight: bold
-        }
-
-        .follow {
-            font-size: 12px;
-            font-weight: 500;
-            color: #444444
-        }
-
-        .btn1 {
-            height: 40px;
-            width: 150px;
-            border: none;
-            background-color: #000;
-            color: #aeaeae;
-            font-size: 15px;
-            border-radius: 10px;
-        }
-
-        .text span {
-            font-size: 13px;
-            color: #545454;
-            font-weight: 500
-        }
-
-        .icons i {
-            font-size: 19px
-        }
-
-        hr .new1 {
-            border: 1px solid
-        }
-
-        .join {
-            font-size: 14px;
-            color: #a0a0a0;
-            font-weight: bold
-        }
-
-        .date {
-            background-color: #ccc
-        }
-
-        .border-pin {
-            display: flex;
-        }
-
-        .num {
-            color: #000;
-            background-color: transparent;
-            width: 17%;
-            height: 60px;
-            text-align: center;
-            outline: none;
-            padding: 1rem 1rem;
-            margin: 0 1px;
-            font-size: 24px;
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            border-radius: .5rem;
-            color: rgba(0, 0, 0, 0.5);
-        }
-
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
@@ -134,79 +26,161 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
+
+        .badge-panduan {
+            color: #3366FF;
+            background-color: #EBF0FF;
+            width: 1.35rem;
+            height: 1.35rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input[type="number"] {
+            font-weight: 100;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container p-3 d-flex justify-content-center">
-        <div class="card p-4 shadow-lg">
-            <!-- logo -->
-            <div class="row">
-                <div class="col-sm-12 mb-3 image" style="text-align: center;">
-                    <img src="{{ Storage::url('public/img/setting_web/') . $setting_web->logo_dark }}"
-                        class="img-fluid center-block">
+    <div class="bg-dark container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="bg-light py-3 text-center">
+                        <img src="{{ getProduk(Request::segment(2)) != null ? Storage::url('public/uploads/logos/') . getProduk(Request::segment(2))->logo : url('assets/img/image 34.png') }}"
+                            alt="error" class="img-fluid" width="100">
+                    </div>
+
+                    <!-- Serial Number -->
+                    <div class="gradient-main pt-5 pb-5">
+                        <div class="text-center mb-3">
+                            <img src="{{ url('assets/img/Black.png') }}" alt="scan_qrcodes">
+                        </div>
+                        <div class="text-center text-light">
+                            <small>Serial Number</small>
+                            <div class="fw-semibold fs-4">{{ Request::segment(2) }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Konten -->
+                    <div class="content bg-light py-5 px-3">
+                        <form action="{{ route('cek_produk') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="latitude" id="latitude">
+                            <input type="hidden" name="longitude" id="longitude">
+                            <input type="hidden" name="sn" value="{{ Request::segment(2) }}">
+                            <div class="mb-5">
+                                <div class="fs-6 text-center">Masukkan Pin</div>
+                                <div class="row justify-content-center mt-3 mb-2">
+                                    <div class="col-8">
+                                        <div class="row g-1">
+                                            <div class="col-2">
+                                                <input type="number" name="satu" id="satu" class="form-control"
+                                                    maxlength="1" size="1" required>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="number" name="dua" id="dua" class="form-control"
+                                                    maxlength="1" size="1" required>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="number" name="tiga" id="tiga" class="form-control"
+                                                    maxlength="1" size="1" required>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="number" name="empat" id="empat" class="form-control"
+                                                    maxlength="1" size="1" required>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="number" name="lima" id="lima" class="form-control"
+                                                    maxlength="1" size="1" required>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="number" name="enam" id="enam" class="form-control"
+                                                    maxlength="1" size="1" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fs-6 text-center text-muted">*Pin terdapat pada label QR</div>
+                            </div>
+                            <div class="d-grid mb-5">
+                                <button type="submit" class="btn btn-main btn-block">Cek
+                                    Produk</button>
+                            </div>
+                        </form>
+                        <div class="d-flex align-items-center justify-content-center">
+                            <svg class="me-2" width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M6 0C2.685 0 0 2.685 0 6C0 9.315 2.685 12 6 12C9.315 12 12 9.315 12 6C12 2.685 9.315 0 6 0ZM6.75 2.25V3.75H5.25V2.25H6.75ZM4.5 9V9.75H7.5V9H6.75V4.5H4.5V5.25H5.25V9H4.5Z"
+                                    fill="#8C8CA2" />
+                            </svg>
+                            <small>
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    class="text-decoration-none text-secondary" role="button">Panduan Penggunaan</a>
+                            </small>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-center pt-5 mt-5">
+                            <div class="text-secondary">Didukung oleh</div>
+                            <div class="mx-1"></div>
+                            <img src="{{ url('assets/img/image 34.png') }}" alt="Labelin">
+                        </div>
+                    </div>
                 </div>
             </div>
-            @error('latitude')
-                <div class="alert alert-danger" role="alert">
-                    System tidak mendapatkan izin untuk mengakses lokasi dari browser anda, silahkan periksa pengaturan perizinan lokasi browser anda dan coba lagi.
-                </div>
-            @enderror
-            <!-- Form -->
-            <form action="{{ route('cek_produk') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label for="sn" class="form-label">Serial Number</label>
-                    <input type="text" class="form-control" name="sn" id="sn"
-                        value="{{ Request::segment(2) }}" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-                    <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap"
-                        placeholder="Nama Lengkap" required autofocus value="{{ old('nama_lengkap') }}">
-                </div>
-                <div class="mb-3">
-                    <label for="tgl_lahir" class="form-label">Usia</label>
-                    <input type="number" class="form-control" name="tgl_lahir" id="tgl_lahir" required min="13"
-                        placeholder="Usia" value="{{ old('tgl_lahir') }}">
-                </div>
-                <div class="mb-3">
-                    <label for="jk_kelamin" class="form-label">Jenis Kelamin</label>
-                    <select class="form-select" name="jk_kelamin" id="jk_kelamin" aria-label="Default select example"
-                        required>
-                        <option value="">--- Pilih ---</option>
-                        <option value="Laki-Laki" {{ old('jk_kelamin') == 'Laki-Laki' ? 'selected' : '' }}>Laki-Laki
-                        </option>
-                        <option value="Perempuan" {{ old('jk_kelamin') == 'Laki-Laki' ? 'selected' : '' }}>Perempuan
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="jk_kelamin">Masukan PIN</label>
-                    <div class="border-pin">
-                        <input type="number" name="satu" id="satu" class="num" maxlength="1" required>
-                        <input type="number" name="dua" id="dua" class="num" maxlength="1" required>
-                        <input type="number" name="tiga" id="tiga" class="num" maxlength="1" required>
-                        <input type="number" name="empat" id="empat" class="num" maxlength="1" required>
-                        <input type="number" name="lima" id="lima" class="num" maxlength="1" required>
-                        <input type="number" name="enam" id="enam" class="num" maxlength="1" required>
-                    </div>
-                    <span style="color: red; font-size:10px">* PIN terdapat pada label QR</span>
-                </div>
-                <input type="hidden" name="latitude" id="latitude">
-                <input type="hidden" name="longitude" id="longitude">
-
-                <!-- Cek Produk -->
-                <div class="d-flex justify-content-center mt-2">
-                    <button type="submit" class="btn1 btn-dark">Cek Produk</button>
-                </div>
-            </form>
-
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-dialog-centered modal-fullscreen">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-center px-3 px-md-5">
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="modal-content py-2" style="border-radius: 1rem;">
+                                <div class="modal-body">
+                                    <div class="fw-semibold fs-5 text-center mb-5">Panduan Penggunaan</div>
+                                    <ul class="list-group mb-5">
+                                        <li class="list-group-item d-flex p-0 mb-3 border-0">
+                                            <span class="badge badge-panduan me-3 mt-1">1</span>
+                                            Temukan QR code pada kemasan produk Anda
+                                        </li>
+                                        <li class="list-group-item d-flex p-0 mb-3 border-0">
+                                            <span class="badge badge-panduan me-3 mt-1">2</span>
+                                            Scan menggunakan QR code Reader pada aplikasi atau Pindai dengan kamera
+                                            ponsel Anda
+                                        </li>
+                                        <li class="list-group-item d-flex p-0 border-0">
+                                            <span class="badge badge-panduan me-3 mt-1">3</span>
+                                            Masukin 6 digit PIN yang terletak pada label produk, lalu cek produk.
+                                        </li>
+                                    </ul>
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-block border"
+                                            data-bs-dismiss="modal">Oke</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    @include('sweetalert::alert')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+        integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+    </script>
+
     <script>
         $(document).ready(function() {
             // untuk memeriksa jika browser tidak support maka akan muncul alert
@@ -236,6 +210,14 @@
             })
         });
     </script>
+    @error('latitude')
+        <script>
+            alert(
+                "System tidak mendapatkan izin untuk mengakses lokasi dari browser anda, silahkan periksa pengaturan perizinan lokasi browser anda dan coba lagi"
+            );
+        </script>
+    @enderror
+    @include('sweetalert::alert')
 </body>
 
 </html>

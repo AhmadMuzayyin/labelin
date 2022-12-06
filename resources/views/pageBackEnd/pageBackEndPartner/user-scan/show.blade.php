@@ -39,7 +39,7 @@
                                         @foreach ($product as $item)
                                             @foreach ($item as $val)
                                                 <ul>
-                                                    <li>{{ $val->nama_lengkap }} - {{ $val->gender }} - {{ $val->birth_date }}</li>
+                                                    <li>{{ $val->lat }}</li>
                                                 </ul>
                                             @endforeach
                                         @endforeach
@@ -54,3 +54,10 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2C2Pu928d5fXhDBBpozZY4ZKkWLbmrTY&sensor=false"></script>
+    <script>
+        
+    </script>
+@endpush

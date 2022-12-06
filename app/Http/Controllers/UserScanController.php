@@ -64,7 +64,7 @@ class UserScanController extends Controller
                 ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
                 ->join('products', 'request_qrs.product_id', '=', 'products.id')
                 ->where('request_qrs.partner_id', session()->get('id-partner'))
-                ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
+                ->get(['serial_number', 'products.name as nama_produk', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
                 ->groupBy('id_qrcode');
             $user = array();
             foreach ($userscan as $value) {
@@ -77,7 +77,6 @@ class UserScanController extends Controller
                     'status' => $value[0]->status
                 ]);
             }
-            // dd($user);
             $collect = collect($user);
             $sorted = $collect->sortByDesc('jml_scan');
             if (request()->ajax()) {
@@ -100,23 +99,22 @@ class UserScanController extends Controller
     }
     public function show($id)
     {
-        $product = ProductScanned::join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
-            ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
-            ->join('products', 'request_qrs.product_id', '=', 'products.id')
-            ->where('request_qrs.partner_id', session()->get('id-partner'))
-            ->where('qr_code_id', $id)
-            ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'qr_codes.id as id_qrcode', 'birth_date'])
-            ->groupBy('id_qrcode');
-
         if (auth()->user()) {
             $product = ProductScanned::join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
                 ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
                 ->join('products', 'request_qrs.product_id', '=', 'products.id')
                 ->where('qr_code_id', $id)
-                ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'qr_codes.id as id_qrcode', 'birth_date'])
+                ->get(['serial_number', 'products.name as nama_produk', 'qr_codes.id as id_qrcode'])
                 ->groupBy('id_qrcode');
             return view('pageBackEnd.user-scan.show', compact('product', 'id'));
         } else {
+            $product = ProductScanned::join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
+                ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
+                ->join('products', 'request_qrs.product_id', '=', 'products.id')
+                ->where('request_qrs.partner_id', session()->get('id-partner'))
+                ->where('qr_code_id', $id)
+                ->get(['serial_number', 'products.name as nama_produk', 'qr_codes.id as id_qrcode', 'lat', 'long'])
+                ->groupBy('id_qrcode');
             return view('pageBackEnd.pageBackEndPartner.user-scan.show', compact('product', 'id'));
         }
     }

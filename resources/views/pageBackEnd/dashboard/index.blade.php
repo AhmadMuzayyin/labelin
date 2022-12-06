@@ -134,41 +134,30 @@
                     </div>
                 </div>
             </div>
-            {{-- Scan data by gender --}}
-            <div class="col-md-6 mt-2" style="color:white">
+            <div class="col-md-6 mt-2">
                 <div class="note note-primary">
                     <div class="note-content">
                         <center>
                             <h5><b>
                                     @if (request()->get('start_date'))
-                                        Scan Produk By Jenis Kelamin Dari
+                                        Total Scan Produk Dari
                                         <br>
                                         {{ date('d/m/Y', strtotime(request()->get('start_date'))) .
                                             ' - ' .
                                             date('d/m/Y', strtotime(request()->get('end_date'))) }}
                                     @else
-                                        Scan Produk By Jenis Kelamin
+                                        Total scanned
                                     @endif
-                                </b></h5>
-                            <h3 class="text-center fw-bold" style="font-size: 24px">
-                                @if (isset($totalGender[0]->total_gender))
-                                    Laki-laki : {{ $totalGender[0]->total_gender }} Data <br>
-                                @else
-                                    Laki-laki : 0 Data <br>
-                                @endif
-
-                                @if (isset($totalGender[1]->total_gender))
-                                    Perempuan : {{ $totalGender[1]->total_gender }} Data <br>
-                                @else
-                                    Perempuan : 0 Data <br>
-                                @endif
-
-
+                                </b>
+                            </h5>
+                            <h3 class="text-center fw-bold" style="font-size: 50px">
+                                {{ $totalProductScanned }} Data
                             </h3>
                         </center>
                     </div>
                 </div>
             </div>
+            
             {{-- Top Duplicate scan data --}}
             <div class="col-md-12 mt-2" style="color:white">
                 <div class="note note-primary">

@@ -28,16 +28,7 @@
                         </a>
 
                         <div class="table-responsive">
-                            <table class="table table-striped" id="data-table" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>{{ __('Name') }}</th>
-                                        <th>{{ __('Link') }}</th>
-                                        <th>{{ __('Action') }}</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                            {!! $html->table() !!}
                         </div>
                     </div>
                 </div>
@@ -46,34 +37,11 @@
     </div>
 @endsection
 @push('js')
+    {!! $html->scripts() !!}
     <script>
-        let columns = [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: 'name',
-                name: 'name',
-            },
-            {
-              data: 'link_sosmed',
-              name: 'link',
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            }
-        ]
-
-        $('#data-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('sosmed.index') }}",
-            columns: columns
-        });
+        $(document).ready(function(){
+            $('#dataTableBuilder').addClass('table-striped');
+            $('#dataTableBuilder').attr('width','100%');
+        })
     </script>
 @endpush

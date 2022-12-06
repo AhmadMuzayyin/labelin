@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(QrCode::class)->constrained();
             $table->string('lat');
             $table->string('long');
+            $table->ipAddress('visitor');
             $table->timestamps();
         });
     }

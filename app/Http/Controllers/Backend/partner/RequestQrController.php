@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Backend\partner;
 
+use App\Exports\PartnerQrExport;
 use App\Http\Controllers\Controller;
 use App\Models\RequestQr;
 use App\Http\Requests\RequestQrs\{StoreRequestQrRequest, UpdateRequestQrRequest};
 use App\Http\Requests\UploadBuktiPembayaranRequest;
 use App\Models\HistoryRequest;
 use App\Models\Product;
+use App\Models\QrCode;
 use App\Models\TypeQr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +29,6 @@ class RequestQrController extends Controller
         // $this->middleware('permission:request_qr_detail')->only('show');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if (request()->ajax()) {
@@ -50,11 +48,6 @@ class RequestQrController extends Controller
         return view('pageBackEnd.pageBackEndPartner.request-qrs.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $products = Product::select('id', 'code', 'name')->where('partner_id', session()->get('id-partner'))->limit(500)->get();
@@ -64,12 +57,6 @@ class RequestQrController extends Controller
         return view('pageBackEnd.pageBackEndPartner.request-qrs.create', compact('products', 'typeQrs', 'kode_request'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreRequestQrRequest $request)
     {
         $attr = $request->validated();
@@ -94,12 +81,6 @@ class RequestQrController extends Controller
         return redirect()->route('request-qrs.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\RequestQr $requestQr
-     * @return \Illuminate\Http\Response
-     */
     public function show(RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
@@ -110,18 +91,12 @@ class RequestQrController extends Controller
         return view('pageBackEnd.pageBackEndPartner.request-qrs.show', compact('requestQr'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\RequestQr $requestQr
-     * @return \Illuminate\Http\Response
-     */
     public function edit(RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
         abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
 
-        if(!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])){
+        if (!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])) {
             Alert::error('Data tidak dapat diubah', 'error');
 
             return redirect()->route('request-qrs.index');
@@ -135,13 +110,6 @@ class RequestQrController extends Controller
         return view('pageBackEnd.pageBackEndPartner.request-qrs.edit', compact('products', 'typeQrs', 'requestQr'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\RequestQr $requestQr
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateRequestQrRequest $request, RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
@@ -159,18 +127,12 @@ class RequestQrController extends Controller
         return redirect()->route('request-qrs.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\RequestQr $requestQr
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
         abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
 
-        if(!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])){
+        if (!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])) {
             Alert::error('Data gagal dihapus', 'error');
 
             return redirect()->route('request-qrs.index');
@@ -195,12 +157,6 @@ class RequestQrController extends Controller
         }
     }
 
-    /**
-     * Download file from storage.
-     *
-     * @param string $filename
-     * @return string
-     */
     public function download(string $filename)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
@@ -243,13 +199,14 @@ class RequestQrController extends Controller
         return str($randomString)->upper();
     }
 
-    public function uploadView(int $id){
+    public function uploadView(int $id)
+    {
         $requestQr = RequestQr::findOrFail($id);
 
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
         abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
 
-        if(!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])){
+        if (!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])) {
             Alert::error('Tidak dapat upload bukti pembayaran', 'error');
 
             return redirect()->route('request-qrs.index');
@@ -258,13 +215,14 @@ class RequestQrController extends Controller
         return view('pageBackEnd.pageBackEndPartner.request-qrs.upload', compact('requestQr'));
     }
 
-    public function upload(int $id, UploadBuktiPembayaranRequest $request){
+    public function upload(int $id, UploadBuktiPembayaranRequest $request)
+    {
         $requestQr = RequestQr::findOrFail($id);
 
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
         abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
 
-        if(!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])){
+        if (!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])) {
             Alert::error('Tidak dapat upload bukti pembayaran', 'error');
 
             return redirect()->route('request-qrs.index');
@@ -314,5 +272,9 @@ class RequestQrController extends Controller
         Alert::error('Bukti pembayaran gagal diupload', 'error');
 
         return redirect()->route('request-qrs.index');
+    }
+    public function export($id)
+    {
+        return Excel::download(new PartnerQrExport($id), 'Qr.xlsx');
     }
 }

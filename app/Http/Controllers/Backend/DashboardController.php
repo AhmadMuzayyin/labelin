@@ -29,21 +29,9 @@ class DashboardController extends Controller
             case true:
                 $totalProductScanned = ProductScanned::where('product_scanneds.created_at', '>=', $awal)
                     ->where('product_scanneds.created_at', '<=', $akhir)->count();
-
-                $totalGender = DB::table('product_scanneds')
-                    ->where('product_scanneds.created_at', '>=', $awal)
-                    ->where('product_scanneds.created_at', '<=', $akhir)
-
-                    ->select('gender', DB::raw('count(*) as total_gender'))
-                    ->groupBy('gender')
-                    ->get();
                 break;
             default:
                 $totalProductScanned = ProductScanned::count();
-                $totalGender = DB::table('product_scanneds')
-                    ->select('gender', DB::raw('count(*) as total_gender'))
-                    ->groupBy('gender')
-                    ->get();
                 break;
         }
 
@@ -59,7 +47,6 @@ class DashboardController extends Controller
             'totalProduct',
             'totalRequestQr',
             'totalProductScanned',
-            'totalGender',
             'totalCategory',
             'topDuplicate'
         ));
@@ -69,7 +56,7 @@ class DashboardController extends Controller
         $userscan = ProductScanned::join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
             ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
             ->join('products', 'request_qrs.product_id', '=', 'products.id')
-            ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
+            ->get(['serial_number', 'products.name as nama_produk', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
             ->groupBy('id_qrcode');
         $user = array();
         foreach ($userscan as $value) {
@@ -86,7 +73,7 @@ class DashboardController extends Controller
         $userscan = ProductScanned::join('qr_codes', 'product_scanneds.qr_code_id', '=', 'qr_codes.id')
             ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
             ->join('products', 'request_qrs.product_id', '=', 'products.id')
-            ->get(['fullname as nama_lengkap', 'serial_number', 'products.name as nama_produk', 'gender', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
+            ->get(['serial_number', 'products.name as nama_produk', 'product_scanneds.created_at', 'product_scanneds.id', 'qr_codes.status', 'qr_codes.id as id_qrcode'])
             ->groupBy('id_qrcode');
         $user = array();
         foreach ($userscan as $value) {

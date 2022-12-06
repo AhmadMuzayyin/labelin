@@ -4,24 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Sosmed;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Html\Builder;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class SosmedController extends Controller
 {
+    protected $htmlBuilder;
+    public function __construct(Builder $htmlBuilder)
+    {
+        $this->htmlBuilder = $htmlBuilder;
+    }
     public function index()
     {
+        $sosmed = Sosmed::where('partner_id', session()->get('id-partner'))->get();
         if (request()->ajax()) {
-            $sosmed = Sosmed::where('partner_id', session()->get('id-partner'));
-
             return DataTables::of($sosmed)
                 ->addIndexColumn()
                 ->addColumn('action', 'pageBackEnd.pageBackEndPartner.sosmed.include.action')
                 ->toJson();
         }
-
-        return view('pageBackEnd.pageBackEndPartner.sosmed.index');
+        $columns = [
+            ['data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'title' => '#',],
+            ['data' => 'name', 'name' => 'name', 'title' => 'Name'],
+            ['data' => 'link_sosmed', 'name' => 'link_sosmed', 'title' => 'Link'],
+            ['data' => 'action', 'name' => 'action', 'title' => 'Action']
+        ];
+        $html = $this->htmlBuilder->columns($columns);
+        return view('pageBackEnd.pageBackEndPartner.sosmed.index', compact('html'));
     }
 
     public function create()
@@ -33,7 +44,6 @@ class SosmedController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'icon' => 'required|string|min:1|',
             'name' => 'required|string|min:1|max:100',
             'partner_id' => 'required|string',
             'link' => 'required|string|min:1',
@@ -41,7 +51,6 @@ class SosmedController extends Controller
         try {
             $sosmed = new Sosmed();
             $sosmed->partner_id = $request->partner_id;
-            $sosmed->icon = $request->icon;
             $sosmed->name = $request->name;
             $sosmed->link_sosmed = $request->link;
             $sosmed->save();
@@ -60,7 +69,6 @@ class SosmedController extends Controller
     {
         $sosmed = Sosmed::findOrFail($id);
         $sosmed->name = $request->name;
-        $sosmed->icon = $request->icon;
         $sosmed->link_sosmed = $request->link;
         $sosmed->save();
         Alert::toast('Data berhasil diupdate', 'success');

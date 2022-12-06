@@ -1,7 +1,6 @@
 <?php
 
-use App\Models\Partner;
-use App\Models\User;
+use App\Models\QrCode;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sosmeds', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Partner::class)->constrained();
-            $table->string('name');
-            $table->string('link_sosmed');
+            $table->foreignIdFor(QrCode::class)->constrained();
+            $table->string('fullname');
+            $table->bigInteger('phone_number');
+            $table->text('kronologi');
+            $table->string('file');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sosmeds');
+        Schema::dropIfExists('reports');
     }
 };

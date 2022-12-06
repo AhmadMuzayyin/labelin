@@ -24,6 +24,7 @@ Route::get('/sitemap.xml', [HomeController::class, 'index'])->name('sitemap');
 Route::post('/kontak', [HomeController::class, 'kontak'])->name('send_kontak');
 Route::get('/scan/{id}', [HomeController::class, 'scan'])->name('scan');
 Route::post('/cek_produk', [HomeController::class, 'cek_produk'])->name('cek_produk');
+Route::post('/rating/{id}', [HomeController::class, 'rating'])->name('produk_rating');
 Route::get('ketentuan', function () {
     $settings = SettingWeb::first();
     return view('pageFrontEnd.ketentuan', ['setting_web' => $settings]);
@@ -48,6 +49,7 @@ Route::prefix('partner')->middleware('PartnerLogin')->group(function () {
     Route::get('/request-qrs/{filename}/download', [RequestQrController::class, 'download'])->name('request-qrs.download');
     Route::get('/request-qrs/{id}/upload', [RequestQrController::class, 'uploadView'])->name('request-qrs.upload');
     Route::put('/request-qrs/{id}/upload', [RequestQrController::class, 'upload'])->name('request-qrs.upload.save');
+    Route::get('/request-qrs/print/{id}', [RequestQrController::class, 'export'])->name('request-qrs.export');
     Route::resource('/request-qrs', RequestQrController::class);
 
     Route::controller(SosmedController::class)->group(function () {
