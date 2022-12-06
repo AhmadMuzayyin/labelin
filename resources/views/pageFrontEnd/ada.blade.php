@@ -17,6 +17,14 @@
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KR4KHT6');</script>
+<!-- End Google Tag Manager -->
 </head>
 
 <body>
@@ -192,7 +200,7 @@
                         </div>
 
                         <!-- Beri Rating -->
-                        @if ($rating->visitor != $ipClient)
+                        @if ($rating == null)
                             <div>
                                 <div class="text-secondary text-center mb-3">Yuk, beli produk kami dan beri rating
                                     terbaik
@@ -209,7 +217,7 @@
                                         </button>
                                 </form>
                             </div>
-                            @else
+                            @elseif($rating->visitor == $ipClient)
                             <h5 class="fw-bold text-center">Terimakasih, anda sudah melakukan rating pada produk kami!</h5>
                         @endif
 
@@ -297,6 +305,11 @@
             })
         })
     </script>
+
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KR4KHT6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 </body>
 
 </html>

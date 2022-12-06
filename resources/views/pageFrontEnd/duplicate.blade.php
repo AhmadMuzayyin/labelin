@@ -5,161 +5,128 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <title>Document</title>
-    <style>
-        @import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+    <title>Nomor Seri Terduplikasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url('assets/css/main.css') }}">
 
-        * {
-            margin: 0;
-            padding: 0;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #86E7BB;
-        }
-
-        .card {
-            width: 350px;
-            cursor: pointer;
-            border-radius: 10px;
-        }
-
-        .image img {
-            transition: all 0.5s
-        }
-
-        .image:hover img {
-            transform: scale(1.5)
-        }
-
-        .btnImage {
-            height: 140px;
-            width: 140px;
-            border-radius: 50%
-        }
-
-        .name {
-            font-size: 22px;
-            font-weight: bold
-        }
-
-        .idd {
-            font-size: 14px;
-            font-weight: 600
-        }
-
-        .idd1 {
-            font-size: 12px
-        }
-
-        .number {
-            font-size: 22px;
-            font-weight: bold
-        }
-
-        .follow {
-            font-size: 12px;
-            font-weight: 500;
-            color: #444444
-        }
-
-        .btnLapor {
-            height: 40px;
-            width: 150px;
-            border: none;
-            background-color: #DC3545;
-            color: #aeaeae;
-            font-size: 15px;
-            border-radius: 10px;
-        }
-
-        .btn1 {
-            height: 40px;
-            width: 150px;
-            border: none;
-            background-color: #000;
-            color: #aeaeae;
-            font-size: 15px;
-            border-radius: 10px;
-        }
-
-        .text span {
-            font-size: 13px;
-            color: #545454;
-            font-weight: 500
-        }
-
-        .icons i {
-            font-size: 19px
-        }
-
-        hr .new1 {
-            border: 1px solid
-        }
-
-        .join {
-            font-size: 14px;
-            color: #a0a0a0;
-            font-weight: bold
-        }
-
-        .date {
-            background-color: #ccc
-        }
-    </style>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KR4KHT6');</script>
+<!-- End Google Tag Manager -->
 </head>
 
 <body>
-    <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
-        <div class="card p-4 shadow-lg">
-            <div class="image d-flex flex-column justify-content-center align-items-center">
-                    <img src="{{ Storage::url('public/uploads/logos/') . $produk->logo_brand }}" width="100%" />
-            </div>
-            <h3 class="h3 mt-3">Nomor Seri Terduplikasi</h3>
+    <div class="bg-dark container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="row">
+                    <div class="bg-light py-3 text-center">
+                        <img src="{{ Storage::url('public/uploads/logos/') . $produk->logo_brand }}" alt="{{ $produk->logo_brand }}" class="img-fluid" width="100">
+                    </div>
 
-            <hr>
-            <div class="text text-center">
-                <span>
-                    Serial Number <b>{{ $sn }}</b> & PIN <b>{{ $pin }}</b> sudah digunakan oleh user
-                    atas nama <strong>{{ $duplicate->fullname }}</strong>
-                </span>
-            </div>
-            <hr>
-            <div class="text text-center">
-                <span style="font-size: 10px;">
-                    <b>Untuk pembeli baru :</b> <br>
-                    <p class="mt-1">
-                        Pastikan nomer seri & pin terdaftar di
-                        {{ $setting_web->nama_website }}, untuk memastikan pencegahan duplikasi nomer seri, segera
-                        input nama, usia, dan jenis kelamin.
-                    </p>
-                </span>
-            </div>
+                    <!-- Serial Number -->
+                    <div class="gradient-main pt-5 pb-5">
+                        <div class="text-center mb-3">
+                            <img src="{{ url('assets/img/Group 4110.png') }}">
+                        </div>
+                        <div class="text-center text-light">
+                            <div class="fw-semibold fs-4">Oops!...</div>
+                            <small>
+                                Nomor Seri <strong>{{ $sn }}</strong> dengan Nama Produk <strong>{{ $produk->nama_produk }}</strong><br> terduga mengalami duplikasi.
+                            </small>
+                        </div>
+                    </div>
 
-            <!-- laporkan -->
-            <div class="d-flex justify-content-center mt-2">
-                <a href="https://wa.me/6281299903331?text=Saya%20mau%20melaporkan%20Serial%20Number%20{{ $sn }}%20dengan%20nama%20produk%20{{ $produk->nama_produk }}"
-                    class="btnLapor btn-danger justify-content-center text-decoration-none p-2" role="button"
-                    target="_blank">
-                    <i class="fa-brands fa-whatsapp"></i> Laporkan
-                </a>
-            </div>
-            <!-- back -->
-            <div class="d-flex justify-content-center mt-2">
-                <a href="{{ route('scan', $sn) }}" role="button"
-                    class="btn1 btn-dark text-decoration-none p-2">Kembali</a>
-            </div>
+                    <!-- Konten -->
+                    <div class="content bg-light pt-5 pb-5 px-3">
 
+                        <!-- Alert -->
+                        <div class="alert alert-danger d-flex rounded-4 mb-5"
+                        style="border-color: #DB2424; background-color: #FDF4F4;" role="alert">
+                            <svg class="bi flex-shrink-0 me-3 mt-1" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M8.00001 0.00499725C3.58277 0.00499725 0.00500488 3.58276 0.00500488 8C0.00500488 12.4172 3.58277 15.995 8.00001 15.995C12.4172 15.995 15.995 12.4172 15.995 8C15.995 3.58276 12.4172 0.00499725 8.00001 0.00499725ZM7.00063 12.9969V10.9981H8.99938V12.9969H7.00063ZM7.00063 3.00312V9.99875H8.99938V3.00312H7.00063Z" fill="#DB2424"/>
+                            </svg>
+
+                            <small>Mohon maaf nomor seri dan produk terduga mengalami duplikasi. Waspada produk palsu atau tiruan!</small>
+                        </div>
+
+                        <!-- Tombol Pengaduan -->
+                        <div class="d-grid">
+                            <button type="button" class="btn text-light btn-block bg-main mb-3" data-bs-toggle="modal" data-bs-target="#pengaduanModal">Pengaduan Produk</button>
+                            <a href="https://wa.me/6281299903331?text=Saya%20mau%20melaporkan%20Serial%20Number%20{{ $sn }}%20dengan%20nama%20produk%20{{ $produk->nama_produk }}" type="button" class="btn btn-block border" role="button" target="_blank">Hubungi WhatsApp</a>
+                        </div>
+
+                        <div class="text-center" style="margin-top: 8rem;">
+                            <a href="{{ route('scan', $sn) }}" class="color-main text-decoration-none">Kembali</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="pengaduanModal" tabindex="-1" aria-labelledby="pengaduanModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-dialog-centered modal-fullscreen">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-center px-3 px-md-5">
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="modal-content py-2" style="border-radius: 1rem;">
+                                <div class="modal-body">
+                                    <div class="fw-semibold fs-5 mb-4">Formulir Pengaduan Perlindungan Konsumen</div>
+                                    <form action="{{ route('produk_report',$sn) }}" class="mb-5" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="nama" class="form-label fw-medium">Nama Lengkap</label>
+                                            <input type="text" class="form-control" id="nama" name="nama" placeholder="nama lengkap" required autofocus>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="no_telp" class="form-label fw-medium">No. Telp</label>
+                                            <input type="text" class="form-control" id="no_telp" name="no_telp" placeholder="no telp" required>
+                                        </div>
+                                        <div class="mb-3">
+                                          <label for="kronologi" class="form-label fw-medium">Pengaduan / Kronologis</label>
+                                          <textarea class="form-control" id="kronologi" name="kronologi" rows="3" placeholder="pengaduan kronologis" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="lampiran" class="form-label">Lampiran Pendukung</label>
+                                            <input class="form-control" type="file" id="lampiran" name="lampiran" required>
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-main btn-block" >Kirim Laporan</button>
+                                            {{-- data-bs-dismiss="modal" --}}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    @include('sweetalert::alert')
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        @include('sweetalert::alert')
+
+        <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KR4KHT6"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 </body>
 
 </html>

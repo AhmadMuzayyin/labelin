@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\RegisterPartnerRequest;
 use Illuminate\Support\Facades\{Hash, Session, Validator, DB};
-use App\Models\{Kontak, ProductScanned, ProdukRating, QrCode, RequestQr, SettingWeb};
+use App\Models\{Kontak, ProductScanned, ProdukRating, QrCode, Report, RequestQr, SettingWeb};
 
 class HomeController extends Controller
 {
@@ -293,6 +293,23 @@ class HomeController extends Controller
             'message' => $cek->visitor == $ipClient && $produk->id == $cek->product_id ? 'Terimkasih, anda sudah melakukan rating' : 'Terimakasih atas rating anda',
         ];
         return response()->json($respon, 200);
+    }
+
+    public function report(Request $req, $id)
+    {
+        $produk = QrCode::where('serial_number', $id)
+            ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
+            ->join('products', 'request_qrs.product_id', '=', 'products.id')
+            ->get(['qr_codes.id'])->toArray();
+        $file = $req->file('lampiran');
+        $report = new Report();
+        $report->qr_code_id = $produk[0]['id'];
+        $report->fullname = $req->nama;
+        $report->phone_number = $req->no_telp;
+        $report->kronologi = $req->kronologi;
+        $report->file = $file->getClientOriginalName();
+        $report->save();
+        return response()->json($report, 200);
     }
 
     public function policy()
