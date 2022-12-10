@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\partner\TypeQrController as PartnerTypeQrContro
 use App\Http\Controllers\Backend\partner\BusinessController as PartnerBusinessController;
 use App\Http\Controllers\Backend\partner\{DashboardPartnerController, ProductController, RequestQrController, ProfilePartnerController};
 use App\Http\Controllers\Backend\{UserController, RolesController, DashboardController, SettingWebController, BusinessController, BusinessPartnerController, CategoryController, PartnerController, TypeQrController, KontakController, ProductAllPartnerController, QrController, RequestAllPartnerController};
+use App\Http\Controllers\ReportController;
 
 Auth::routes(['register' => false]);
 // Route Front end
@@ -23,7 +24,7 @@ Route::get('/terms&conditions', [HomeController::class, 'termcondtion'])->name('
 Route::get('/sitemap.xml', [HomeController::class, 'index'])->name('sitemap');
 Route::post('/kontak', [HomeController::class, 'kontak'])->name('send_kontak');
 Route::get('/scan/{id}', [HomeController::class, 'scan'])->name('scan');
-Route::post('/cek_produk', [HomeController::class, 'cek_produk'])->name('cek_produk');
+Route::any('/cek_produk', [HomeController::class, 'cek_produk'])->name('cek_produk');
 Route::post('/rating/{id}', [HomeController::class, 'rating'])->name('produk_rating');
 Route::post('/report/{id}', [HomeController::class, 'report'])->name('produk_report');
 Route::get('ketentuan', function () {
@@ -105,6 +106,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
     Route::controller(KontakController::class)->group(function () {
         Route::get('/kontak', 'index')->name('kontak.index');
     });
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
     Route::controller(QrController::class)->group(function () {
         Route::get('/export/{id}', 'export')->name('export.qr');
     });

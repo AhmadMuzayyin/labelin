@@ -11,6 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\RegisterPartnerRequest;
 use Illuminate\Support\Facades\{Hash, Session, Validator, DB};
 use App\Models\{Kontak, ProductScanned, ProdukRating, QrCode, Report, RequestQr, SettingWeb};
+use Illuminate\Support\Arr;
 
 class HomeController extends Controller
 {
@@ -152,6 +153,9 @@ class HomeController extends Controller
 
     public function cek_produk(Request $request)
     {
+        if ($request->isMethod('get')) {
+            abort(404);
+        }
         $request->validate([
             'latitude' => ['required'],
             'longitude' => ['required'],
@@ -172,7 +176,7 @@ class HomeController extends Controller
                 ->join('businesses', 'products.business_id', 'businesses.id')
                 ->where('qr_codes.serial_number', $request->sn)
                 ->where('qr_codes.pin', $pin)
-                ->select('products.name as nama_produk', 'categories.name as nama_kategori', 'businesses.logo as logo_brand', 'businesses.brand as nama_brand', 'products.bpom', 'products.photo', 'products.id')
+                ->select('products.name as nama_produk', 'categories.name as nama_kategori', 'businesses.logo as logo_brand', 'businesses.brand as nama_brand', 'products.bpom', 'products.photo', 'products.id', 'products.kemasan')
                 ->first();
 
             // cek duplicate data
@@ -237,8 +241,10 @@ class HomeController extends Controller
             }
             // get sosmed link
             $getPartnerId = RequestQrCode::firstWhere('id', $cek->request_qr_id);
-            $sosmed = Sosmed::where('partner_id', $getPartnerId->id)->get();
-            $rating = DB::table('produk_ratings')->where('product_id', $produk->id)->first();
+            $sosmed = Sosmed::where('partner_id', $getPartnerId->partner_id)->get();
+            $rating = DB::table('produk_ratings')->where('product_id', $produk->id)->where('visitor', $ipClient)->first();
+            $getProdukRating = ProdukRating::where('product_id', $produk->id)->get('produk_rated');
+            $produk_rating = round($getProdukRating->sum('produk_rated') / $getProdukRating->count(), 2);
             Alert::toast('Congratulations !!! Produk Terdaftar', 'success');
             return view('pageFrontEnd.ada', [
                 'setting_web' => $this->settings,
@@ -246,8 +252,8 @@ class HomeController extends Controller
                 'pin' => $pin,
                 'produk' => $produk,
                 'sosmed' => $sosmed,
-                'rating' => $rating,
-                'ipClient' => $ipClient
+                'rating' => $rating != null ? true : false,
+                'produk_rating' => isset($getProdukRating) ? $produk_rating : 0
             ]);
         } else {
             Alert::toast('Warning !!! Produk Tidak Terdaftar', 'error');
@@ -268,29 +274,21 @@ class HomeController extends Controller
             ->where('qr_codes.serial_number', $id)
             ->select('products.id')
             ->first();
-        $cek = ProdukRating::where('product_id', $produk->id)->first();
-        if (isset($cek)) {
-            // if ($cek->visitor) {
-            if ($cek->visitor != $ipClient && $produk->id != $cek->product_id) {
-                DB::table('produk_ratings')->insert([
-                    'product_id' => $produk->id,
-                    'produk_rated' => doubleval($req->rating),
-                    'visitor' => $ipClient,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ]);
-            }
-        } else {
+        $cek = ProdukRating::where('product_id', $produk->id)->where('visitor', $ipClient)->first();
+        if (!isset($cek)) {
             DB::table('produk_ratings')->insert([
                 'product_id' => $produk->id,
-                'produk_rated' => doubleval($req->rating),
+                'produk_rated' => $req->rating,
                 'visitor' => $ipClient,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
         }
+        $getProdukRating = ProdukRating::where('product_id', $produk->id)->get('produk_rated');
+        $produk_rating = round($getProdukRating->sum('produk_rated') / $getProdukRating->count(), 2);
         $respon = [
             'message' => $cek->visitor == $ipClient && $produk->id == $cek->product_id ? 'Terimkasih, anda sudah melakukan rating' : 'Terimakasih atas rating anda',
+            'rating' => $produk_rating,
         ];
         return response()->json($respon, 200);
     }
@@ -301,14 +299,24 @@ class HomeController extends Controller
             ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
             ->join('products', 'request_qrs.product_id', '=', 'products.id')
             ->get(['qr_codes.id'])->toArray();
-        $file = $req->file('lampiran');
+
+        $filename = $req->file('lampiran')->hashName();
+
         $report = new Report();
         $report->qr_code_id = $produk[0]['id'];
         $report->fullname = $req->nama;
-        $report->phone_number = $req->no_telp;
+        $report->phone_number = $req->telp;
         $report->kronologi = $req->kronologi;
-        $report->file = $file->getClientOriginalName();
+        $report->file = $filename;
         $report->save();
+
+        if ($req->file('lampiran') && $req->file('lampiran')->isValid()) {
+            $path = "/public/uploads/laporan/";
+            // if (!file_exists($path)) {
+            //     mkdir($path, 0777, true);
+            // }
+            $req->file('lampiran')->storeAs($path, $filename);
+        }
         return response()->json($report, 200);
     }
 

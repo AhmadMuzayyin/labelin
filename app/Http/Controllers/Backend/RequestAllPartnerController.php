@@ -51,12 +51,12 @@ class RequestAllPartnerController extends Controller
         $jml = $request->qty_qr;
         DB::beginTransaction();
         try {
-            for($i=1; $i<=$jml; $i++){
+            for ($i = 1; $i <= $jml; $i++) {
                 $sn = $this->generateRandomString($request->sn_length);
                 $pin = $this->generateRandomPin();
                 // insert ke table qr
                 DB::table('qr_codes')->insert([
-                    'request_qr_id' =>$request->request_qr_id,
+                    'request_qr_id' => $request->request_qr_id,
                     'serial_number' => $sn,
                     'pin' => $pin,
                     'created_at' => date('Y-m-d H:i:s'),
@@ -64,13 +64,13 @@ class RequestAllPartnerController extends Controller
             }
             // update table request qr
             $affected = DB::table('request_qrs')
-              ->where('id', $request->request_qr_id)
-              ->update(['is_generate' => 'Sudah Generate']);
-              if($affected){
+                ->where('id', $request->request_qr_id)
+                ->update(['is_generate' => 'Sudah Generate']);
+            if ($affected) {
                 echo "success";
-              }else{
+            } else {
                 echo "error";
-              }
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             echo "error";
@@ -79,47 +79,49 @@ class RequestAllPartnerController extends Controller
         }
     }
 
-    public function upProgress(Request $request){
+    public function upProgress(Request $request)
+    {
         // insert ke table qr
         DB::table('history_requests')->insert([
-            'request_qr_id' =>$request->request_qr_id,
+            'request_qr_id' => $request->request_qr_id,
             'status' => 'Proses Cetak QR',
             'created_at' => date('Y-m-d H:i:s'),
         ]);
 
         $affected = DB::table('request_qrs')
-              ->where('id', $request->request_qr_id)
-              ->update(['status' => 'Proses Cetak QR']);
-              if($affected){
-                echo "success";
-              }else{
-                echo "error";
-              }
+            ->where('id', $request->request_qr_id)
+            ->update(['status' => 'Proses Cetak QR']);
+        if ($affected) {
+            echo "success";
+        } else {
+            echo "error";
+        }
     }
 
-    public function upResi(Request $request){
+    public function upResi(Request $request)
+    {
         // insert ke table qr
         DB::table('history_requests')->insert([
-            'request_qr_id' =>$request->request_qr_id,
+            'request_qr_id' => $request->request_qr_id,
             'status' => 'Dalam Pengiriman',
             'created_at' => date('Y-m-d H:i:s'),
         ]);
 
 
         $affected = DB::table('request_qrs')
-        ->where('id', $request->request_qr_id)
-        ->update([
-            'status' => 'Dalam Pengiriman',
-            'jasa_kirim' => $request->jasa_kirim,
-            'no_resi' => $request->resi,
-        ]);
+            ->where('id', $request->request_qr_id)
+            ->update([
+                'status' => 'Dalam Pengiriman',
+                'jasa_kirim' => $request->jasa_kirim,
+                'no_resi' => $request->resi,
+            ]);
         Alert::toast('Nomor Resi Berhasil Di Update', 'success');
         return redirect()->back();
     }
 
     function generateRandomString($length)
     {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
 
@@ -128,9 +130,9 @@ class RequestAllPartnerController extends Controller
         }
         return str($randomString)->upper();
     }
-    function generateRandomPin($length =6)
+    function generateRandomPin($length = 6)
     {
-        $characters = '0123456789';
+        $characters = '123456789';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {

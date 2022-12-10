@@ -24,7 +24,7 @@
                 <div class="login-header">
                     <div class="brand">
                         <div class="d-flex align-items-center">
-                            <img src="{{ url('img/logo_white.png') }}" alt="labelin" class="img-fluid-responsive" height="50px">
+                            <img src="{{ url('img/logo_White.png') }}" alt="labelin" class="img-fluid-responsive" height="50px">
                         </div>
                         <small>Please login to start session</small>
                     </div>

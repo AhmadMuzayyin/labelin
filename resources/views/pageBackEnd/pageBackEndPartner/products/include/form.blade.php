@@ -53,7 +53,7 @@
                 @foreach ($businessPartners as $businessPartner)
                     <option value="{{ $businessPartner->id }}"
                         {{ isset($product) && $product->business_id == $businessPartner->id ? 'selected' : (old('business_id') == $businessPartner->id ? 'selected' : '') }}>
-                        {{ $businessPartner->name  }}
+                        {{ $businessPartner->name }}
                     </option>
                 @endforeach
             </select>
@@ -136,4 +136,18 @@
             </div>
         </div>
     @endisset
+
+    <div class="col-md-6 mb-2">
+        <div class="form-group">
+            <label for="kemasan">{{ __('Kemasan') }}</label>
+            <input type="text" name="kemasan" class="form-control @error('kemasan') is-invalid @enderror"
+                id="kemasan" required value="{{ isset($product) ? $product->kemasan : old('kemasan') }}">
+
+            @error('kemasan')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    </div>
 </div>

@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('bpom');
             $table->text('description');
+            $table->string('kemasan');
             $table->string('photo');
             $table->timestamps();
         });

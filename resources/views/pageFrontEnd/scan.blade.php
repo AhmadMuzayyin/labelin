@@ -15,18 +15,6 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url('assets/css/main.css') }}">
     <style>
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-
         .badge-panduan {
             color: #3366FF;
             background-color: #EBF0FF;
@@ -36,25 +24,33 @@
             align-items: center;
             justify-content: center;
         }
-
-        input[type="number"] {
-            font-weight: 100;
-        }
     </style>
 
     <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KR4KHT6');</script>
-<!-- End Google Tag Manager -->
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KR4KHT6');
+    </script>
+    <!-- End Google Tag Manager -->
 </head>
 
 <body>
     <div class="bg-dark container-fluid">
         <div class="row justify-content-center">
-            <div class="col-md-3">
+
+            <div class="lebar">
                 <div class="row">
                     <div class="bg-light py-3 text-center">
                         <img src="{{ getProduk(Request::segment(2)) != null ? Storage::url('public/uploads/logos/') . getProduk(Request::segment(2))->logo : url('assets/img/image 34.png') }}"
@@ -85,28 +81,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     <div class="col-8">
                                         <div class="row g-1">
                                             <div class="col-2">
-                                                <input type="number" name="satu" id="satu" class="form-control"
-                                                    maxlength="1" size="1" required>
+                                                <input type="text" name="satu" id="satu"
+                                                    class="form-control input" maxlength="1" required
+                                                    autocomplete="off">
                                             </div>
                                             <div class="col-2">
-                                                <input type="number" name="dua" id="dua" class="form-control"
-                                                    maxlength="1" size="1" required>
+                                                <input type="text" name="dua" id="dua" class="form-control"
+                                                    maxlength="1" required autocomplete="off">
                                             </div>
                                             <div class="col-2">
-                                                <input type="number" name="tiga" id="tiga" class="form-control"
-                                                    maxlength="1" size="1" required>
+                                                <input type="text" name="tiga" id="tiga" class="form-control"
+                                                    maxlength="1" required autocomplete="off">
                                             </div>
                                             <div class="col-2">
-                                                <input type="number" name="empat" id="empat" class="form-control"
-                                                    maxlength="1" size="1" required>
+                                                <input type="text" name="empat" id="empat" class="form-control"
+                                                    maxlength="1" required autocomplete="off">
                                             </div>
                                             <div class="col-2">
-                                                <input type="number" name="lima" id="lima" class="form-control"
-                                                    maxlength="1" size="1" required>
+                                                <input type="text" name="lima" id="lima" class="form-control"
+                                                    maxlength="1" required autocomplete="off">
                                             </div>
                                             <div class="col-2">
-                                                <input type="number" name="enam" id="enam" class="form-control"
-                                                    maxlength="1" size="1" required>
+                                                <input type="text" name="enam" id="enam" class="form-control"
+                                                    maxlength="1" required autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -127,7 +124,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </svg>
                             <small>
                                 <a data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                    class="text-decoration-none text-secondary" role="button">Panduan Penggunaan</a>
+                                    class="text-decoration-none text-secondary" role="button">Panduan
+                                    Penggunaan</a>
                             </small>
                         </div>
 
@@ -181,13 +179,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -200,21 +198,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 $("#latitude").val(`${position.coords.latitude}`);
                 $("#longitude").val(`${position.coords.longitude}`);
             });
-
             $('#satu').keyup(function() {
-                $('#dua').focus();
+                if (this.value.length == this.maxLength) {
+                    $('#dua').focus();
+                }
             })
-            $('#dua').keyup(function() {
-                $('#tiga').focus();
+            $('#dua').keyup(function(e) {
+                if (this.value.length == this.maxLength) {
+                    $('#tiga').focus();
+                }else if(e.which == 8){
+                    $('#satu').focus();
+                }
             })
-            $('#tiga').keyup(function() {
-                $('#empat').focus();
+            $('#tiga').keyup(function(e) {
+                if (this.value.length == this.maxLength) {
+                    $('#empat').focus();
+                }else if(e.which == 8){
+                    $('#dua').focus();
+                }
             })
-            $('#empat').keyup(function() {
-                $('#lima').focus();
+            $('#empat').keyup(function(e) {
+                if (this.value.length == this.maxLength) {
+                    $('#lima').focus();
+                }else if(e.which == 8){
+                    $('#tiga').focus();
+                }
             })
-            $('#lima').keyup(function() {
-                $('#enam').focus();
+            $('#lima').keyup(function(e) {
+                if (this.value.length == this.maxLength) {
+                    $('#enam').focus();
+                }else if(e.which == 8){
+                    $('#empat').focus();
+                }
+            })
+            $('#enam').keyup(function(e) {
+                if(e.which == 8){
+                    $('#lima').focus();
+                }
             })
         });
     </script>
@@ -228,9 +248,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @include('sweetalert::alert')
 
     <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KR4KHT6"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KR4KHT6" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 </body>
 
 </html>

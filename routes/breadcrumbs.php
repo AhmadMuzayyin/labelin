@@ -273,3 +273,6 @@ Breadcrumbs::for('sosmedEdit', function (BreadcrumbTrail $trail, $sosmed) {
 Breadcrumbs::for('user-scan', function (BreadcrumbTrail $trail) {
     $trail->push('Customer Data', route('user.scan.index'));
 });
+Breadcrumbs::for('Report', function (BreadcrumbTrail $trail) {
+    $trail->push('Data Report Customer', route('report.index'));
+});
