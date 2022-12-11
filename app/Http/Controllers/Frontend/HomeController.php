@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Models\Sosmed;
 use App\Models\Partner;
-use App\Models\RequestQr as RequestQrCode;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\RequestQr as RequestQrCode;
 use App\Http\Requests\RegisterPartnerRequest;
 use Illuminate\Support\Facades\{Hash, Session, Validator, DB};
 use App\Models\{Kontak, ProductScanned, ProdukRating, QrCode, Report, RequestQr, SettingWeb};
-use Illuminate\Support\Arr;
 
 class HomeController extends Controller
 {
