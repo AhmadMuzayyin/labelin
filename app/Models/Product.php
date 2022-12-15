@@ -14,14 +14,14 @@ class Product extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['code', 'name', 'slug', 'category_id', 'business_id', 'bpom', 'description', 'photo', 'partner_id'];
+    protected $fillable = ['code', 'name', 'slug', 'category_id', 'business_id', 'bpom', 'description', 'kemasan', 'photo', 'partner_id'];
 
     /**
      * The attributes that should be cast.
      *
      * @var string[]
      */
-    protected $casts = ['code' => 'string', 'name' => 'string', 'slug' => 'string', 'bpom' => 'string', 'description' => 'string', 'photo' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
+    protected $casts = ['code' => 'string', 'name' => 'string', 'slug' => 'string', 'bpom' => 'string', 'description' => 'string', 'kemasan' => 'string', 'photo' => 'string', 'created_at' => 'datetime:d/m/Y H:i', 'updated_at' => 'datetime:d/m/Y H:i'];
 
     public function category()
     {

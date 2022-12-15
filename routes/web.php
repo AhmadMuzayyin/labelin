@@ -63,8 +63,8 @@ Route::prefix('partner')->middleware('PartnerLogin')->group(function () {
         Route::delete('/sosmed/destroy/{id}', 'destroy')->name('sosmed.destroy');
     });
     Route::controller(UserScanController::class)->group(function () {
-        Route::get('user-scan', 'index')->name('user.scan.index');
-        Route::get('user-scan/show/{id}', 'show')->name('user.scan.show');
+        Route::get('user-scan', 'partner')->name('user.scan.partner');
+        Route::get('user-scan/show/{id}', 'showPartner')->name('user.scan.showPartner');
     });
     Route::patch('kunci-sn', [UserScanController::class, 'edit'])->name('kunci');
 });
@@ -95,12 +95,12 @@ Route::prefix('panel')->middleware('auth')->group(function () {
         Route::post('/upResi', 'upResi')->name('upResi');
     });
     Route::controller(ProductAllPartnerController::class)->group(function () {
-        Route::get('/productAll', 'index')->name('productAll');
+        Route::get('/productAll', 'admin')->name('productAll');
         Route::get('/productAll/{id}', 'show')->name('productAll.show');
     });
     Route::controller(UserScanController::class)->group(function () {
-        Route::get('customer', 'index')->name('customer.index');
-        Route::get('customor/show/{id}', 'show')->name('customer.show');
+        Route::get('customer', 'admin')->name('customer.admin');
+        Route::get('customor/show/{id}', 'showAdmin')->name('customer.showAdmin');
     });
     Route::patch('kunci-sn', [UserScanController::class, 'edit'])->name('customer.kunci');
     Route::controller(KontakController::class)->group(function () {

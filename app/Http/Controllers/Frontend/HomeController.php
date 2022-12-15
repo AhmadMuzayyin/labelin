@@ -244,7 +244,7 @@ class HomeController extends Controller
             $sosmed = Sosmed::where('partner_id', $getPartnerId->partner_id)->get();
             $rating = DB::table('produk_ratings')->where('product_id', $produk->id)->where('visitor', $ipClient)->first();
             $getProdukRating = ProdukRating::where('product_id', $produk->id)->get('produk_rated');
-            $produk_rating = round($getProdukRating->sum('produk_rated') / $getProdukRating->count(), 2);
+            $produk_rating = $getProdukRating->count() > 0 ? round($getProdukRating->sum('produk_rated') / $getProdukRating->count(), 2) : 0;
             Alert::toast('Congratulations !!! Produk Terdaftar', 'success');
             return view('pageFrontEnd.ada', [
                 'setting_web' => $this->settings,
@@ -285,7 +285,7 @@ class HomeController extends Controller
             ]);
         }
         $getProdukRating = ProdukRating::where('product_id', $produk->id)->get('produk_rated');
-        $produk_rating = round($getProdukRating->sum('produk_rated') / $getProdukRating->count(), 2);
+        $produk_rating = $getProdukRating->count() > 0 ? round($getProdukRating->sum('produk_rated') / $getProdukRating->count(), 2) : 0;
         $respon = [
             'message' => $cek->visitor == $ipClient && $produk->id == $cek->product_id ? 'Terimkasih, anda sudah melakukan rating' : 'Terimakasih atas rating anda',
             'rating' => $produk_rating,

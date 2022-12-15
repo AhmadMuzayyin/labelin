@@ -56,7 +56,7 @@
                 </a>
             </div>
             <div class="menu-item">
-                <a href="{{ route('customer.index') }}" class="menu-link">
+                <a href="{{ route('customer.admin') }}" class="menu-link">
                     <div class="menu-icon">
                         <i class="fa-solid fa-layer-group"></i>
                     </div>

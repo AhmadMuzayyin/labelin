@@ -71,7 +71,7 @@
                 </a>
             </div>
             <div class="menu-item">
-                <a href="{{ route('user.scan.index') }}" class="menu-link">
+                <a href="{{ route('user.scan.partner') }}" class="menu-link">
                     <div class="menu-icon">
                         <i class="fa-solid fa-layer-group"></i>
                     </div>
