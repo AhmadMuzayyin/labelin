@@ -270,9 +270,15 @@ Breadcrumbs::for('sosmedEdit', function (BreadcrumbTrail $trail, $sosmed) {
     $trail->push('Edit Data Sosial Media', route('sosmed.edit', $sosmed));
 });
 // User Scanned
+Breadcrumbs::for('user-scan-admin', function (BreadcrumbTrail $trail) {
+    $trail->push('Customer Data', route('customer.admin'));
+});
 Breadcrumbs::for('user-scan', function (BreadcrumbTrail $trail) {
-    $trail->push('Customer Data', route('user.scan.index'));
+    $trail->push('Customer Data', route('user.scan.partner'));
 });
 Breadcrumbs::for('Report', function (BreadcrumbTrail $trail) {
     $trail->push('Data Report Customer', route('report.index'));
+});
+Breadcrumbs::for('video_pendek', function (BreadcrumbTrail $trail) {
+    $trail->push('Tambah Video Pendek', route('partner.video.create'));
 });

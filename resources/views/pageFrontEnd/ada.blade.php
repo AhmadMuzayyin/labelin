@@ -117,7 +117,7 @@
 
                         <!-- Media Sosial -->
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">Terhubung via link official!</div>
+                            <div class="fw-bold text-center mb-3">Terhubung link social media official!</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)
@@ -191,17 +191,88 @@
                                             </a>
                                         @break
 
-                                        @case('Store')
+                                        @default
+                                    @endswitch
+                                @endforeach
+                            </ul>
+                        </div>
+                        {{-- store --}}
+                        <div class="mb-3">
+                            <div class="fw-bold text-center mb-3">Dapat produk di oficial store!</div>
+                            <ul class="list-group">
+                                @foreach ($sosmed as $item)
+                                    @switch($item->name)
+                                        @case('TiktokShop')
                                             <a href="{{ $item->link_sosmed }}"
                                                 class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
                                                 target="_blank">
-                                                <svg class="me-2" width="20" height="20" viewBox="0 0 20 19"
-                                                    fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M19.999 6C19.9991 5.81852 19.9497 5.64045 19.856 5.485L17.147 0.97C16.9685 0.674841 16.7171 0.430573 16.4169 0.260692C16.1168 0.0908116 15.7779 0.00103553 15.433 0H4.565C3.867 0 3.21 0.372 2.851 0.971L0.142001 5.485C0.0483502 5.64045 -0.00109334 5.81852 -0.000999317 6C-0.000999317 7.005 0.385001 7.914 0.999001 8.618V18C0.999001 18.2652 1.10436 18.5196 1.29189 18.7071C1.47943 18.8946 1.73378 19 1.999 19H9.999C10.2642 19 10.5186 18.8946 10.7061 18.7071C10.8936 18.5196 10.999 18.2652 10.999 18V13H14.999V18C14.999 18.2652 15.1044 18.5196 15.2919 18.7071C15.4794 18.8946 15.7338 19 15.999 19H17.999C18.2642 19 18.5186 18.8946 18.7061 18.7071C18.8936 18.5196 18.999 18.2652 18.999 18V8.618C19.613 7.914 19.999 7.005 19.999 6ZM17.983 6.251C17.9215 6.73391 17.6861 7.17785 17.3209 7.49977C16.9558 7.82169 16.4858 7.99953 15.999 8C14.896 8 13.999 7.103 13.999 6C13.999 5.932 13.974 5.872 13.96 5.808L13.98 5.804L13.219 2H15.433L17.983 6.251ZM8.006 6.065L8.818 2H11.179L11.992 6.065C11.957 7.138 11.079 8 9.999 8C8.919 8 8.041 7.138 8.006 6.065ZM4.565 2H6.779L6.019 5.804L6.039 5.808C6.024 5.872 5.999 5.932 5.999 6C5.999 7.103 5.102 8 3.999 8C3.51219 7.99953 3.04223 7.82169 2.67706 7.49977C2.31189 7.17785 2.07652 6.73391 2.015 6.251L4.565 2ZM7.999 14H3.999V11H7.999V14Z"
-                                                        fill="#827AF3" />
-                                                </svg>
-                                                <span class="color-main">Store</span>
+                                                <img src="https://assets.kompasiana.com/items/album/2022/06/15/picsart-22-06-15-19-29-55-853-62a9d0d3fdcdb43f623bb7f2.jpg" alt="TiktokShop" width="30" height="30">
+                                                <span class="color-main">TiktokShop</span>
+                                            </a>
+                                        @break
+
+                                        @case('Lazada')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://id-test-11.slatic.net/p/d2a68971c70bebb12edf7dc6e82a978c.png" alt="lazada" width="25" height="25">
+                                                <span class="color-main">Lazada</span>
+                                            </a>
+                                        @break
+
+                                        @case('Shopee')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/Shopee-logo.jpg" alt="Shopee" width="25" height="25">
+                                                <span class="color-main">Shopee</span>
+                                            </a>
+                                        @break
+
+                                        @case('Tokopedia')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://seeklogo.com/images/T/tokopedia-logo-7AC053EC2E-seeklogo.com.png" alt="Toko Pedia" width="25" height="25">
+                                                <span class="color-main">Tokopedia</span>
+                                            </a>
+                                        @break
+
+                                        @case('Buka Lapak')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://cuckoo.co.id/wp-content/uploads/2021/09/icon-bukalapak.png" alt="Buka Lapak" width="30" height="25">
+                                                <span class="color-main">Bukalapak</span>
+                                            </a>
+                                        @break
+
+                                        @default
+                                    @endswitch
+                                @endforeach
+                            </ul>
+                        </div>
+                        {{-- CS --}}
+                        <div class="mb-3">
+                            <div class="fw-bold text-center mb-3">Terhubung dengan Customer Care!</div>
+                            <ul class="list-group">
+                                @foreach ($sosmed as $item)
+                                    @switch($item->name)
+                                        @case('Whatsapp')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://www.bankmandiri.co.id/documents/20143/41195834/WhatsApp_Logo_1.png/9b62c2f0-58b8-c924-3c22-2b1762c1eb90?t=1572401623745" alt="Whatsapp" width="25" height="25">
+                                                <span class="color-main">Whatsapp</span>
+                                            </a>
+                                        @break
+
+                                        @case('Telepon')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://www.freepnglogos.com/uploads/logo-telepon-png/icon-telepon-download-vector-dodo-grafis-11.png" alt="Telepon" width="20" height="20">
+                                                <span class="color-main">Telepon</span>
                                             </a>
                                         @break
 
@@ -300,8 +371,8 @@
                             rating: stars
                         },
                         success: function(res) {
-                            $('#rating_now').text($('#rating_now').text().replace(res.rating))
-                            console.log(res);
+                            $('#rating_now').text($('#rating_now').text().replace(res
+                                .rating))
                             $('#ratingModal').modal('show');
                             $('#ratingModal').on('shown.bs.modal', function(e) {
                                 $('#modal_pesan').html(res.message)

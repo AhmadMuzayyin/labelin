@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend\partner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Business\{StoreBusinessRequest, UpdateBusinessRequest};
 use App\Models\Business;
+use App\Models\BusinessVideo;
 use Illuminate\Support\Facades\Gate;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\Facades\Image;
@@ -13,11 +14,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BusinessController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if (request()->ajax()) {
@@ -32,26 +28,14 @@ class BusinessController extends Controller
         return view('pageBackEnd.pageBackEndPartner.business.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('pageBackEnd.pageBackEndPartner.business.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreBusinessRequest $request)
     {
         $attr = $request->validated();
-
         if ($request->file('logo') && $request->file('logo')->isValid()) {
 
             $path = storage_path('app/public/uploads/logos/');
@@ -71,19 +55,29 @@ class BusinessController extends Controller
 
         $attr['partner_id'] = session()->get('id-partner');
 
-        Business::create($attr);
+        $bis = Business::create($attr);
+        if ($request->file('video') && $request->file('video')->isValid()) {
+
+            $path = storage_path('app/public/uploads/video/');
+            $filename = $request->file('video')->hashName();
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $request->file('video')->move($path, $filename);
+
+            $video = new BusinessVideo();
+            $video->business_id = $bis->id;
+            $video->video = $filename;
+            $video->save();
+        }
 
         Alert::toast('Data berhasil disimpan', 'success');
 
         return redirect()->route('part-bus.business.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Business $business
-     * @return \Illuminate\Http\Response
-     */
     public function show(Business $business)
     {
         // dd($business, $business->partner_id, session()->get('id-partner'), session()->get('id-partner') == $business->partner_id);
@@ -91,30 +85,19 @@ class BusinessController extends Controller
 
         abort_if(session()->get('id-partner') != $business->partner_id, Response::HTTP_FORBIDDEN);
 
-        return view('pageBackEnd.pageBackEndPartner.business.show', compact('business'));
+        $video = BusinessVideo::firstWhere('business_id', $business->id);
+        return view('pageBackEnd.pageBackEndPartner.business.show', compact('business', 'video'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Business $business
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Business $business)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $business->partner_id);
         abort_if(session()->get('id-partner') != $business->partner_id, Response::HTTP_FORBIDDEN);
 
-        return view('pageBackEnd.pageBackEndPartner.business.edit', compact('business'));
+        $video = BusinessVideo::firstWhere('business_id', $business->id);
+        return view('pageBackEnd.pageBackEndPartner.business.edit', compact('business', 'video'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Business $business
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateBusinessRequest $request, Business $business)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $business->partner_id);
@@ -145,18 +128,27 @@ class BusinessController extends Controller
         }
 
         $business->update($attr);
+        if ($request->file('video') && $request->file('video')->isValid()) {
+
+            $path = storage_path('app/public/uploads/video/');
+            $filename = $request->file('video')->hashName();
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $request->file('video')->move($path, $filename);
+
+            $video = BusinessVideo::firstWhere('business_id', $business->id);
+            $video->video = $filename;
+            $video->save();
+        }
 
         Alert::toast('Data berhasil diupdate', 'success');
 
         return redirect()->route('part-bus.business.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Business $business
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Business $business)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $business->partner_id);
@@ -168,8 +160,14 @@ class BusinessController extends Controller
             if ($business->logo != null && file_exists($path . $business->logo)) {
                 unlink($path . $business->logo);
             }
+            $video = BusinessVideo::firstWhere('business_id', $business->id);
+            $path_video = storage_path('app/public/uploads/video/');
 
-            $business->delete();
+            if ($video->video != null && file_exists($path . $video->video)) {
+                unlink($path_video . $video->video);
+            }
+
+            $video->delete();
 
             Alert::toast('Data berhasil dihapus', 'success');
 

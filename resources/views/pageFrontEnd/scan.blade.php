@@ -70,6 +70,9 @@
 
                     <!-- Konten -->
                     <div class="content bg-light py-5 px-3">
+                        <video id="video" width="300" height="250" autoplay loop muted>
+                            <source src="" type="video/mp4">
+                        </video>
                         <form action="{{ route('cek_produk') }}" method="POST">
                             @csrf
                             <input type="hidden" name="latitude" id="latitude">
@@ -136,6 +139,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -189,6 +193,25 @@
 
     <script>
         $(document).ready(function() {
+            // get iklan video
+            var sn = '{{ Request::segment(2) }}';
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('bisnis.video') }}',
+                data: {
+                    sn: sn
+                },
+                success: function(res) {
+                    $('video source').attr('src', "{{ asset('storage/uploads/video/') }}" +
+                        '/' + res.video);
+                    $('#video').muted = true
+                    $('#video').get(0).play()
+                },
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function() {
             // untuk memeriksa jika browser tidak support maka akan muncul alert
             if (!navigator.geolocation)
                 return alert("Geolocation is not supported.");
@@ -206,33 +229,33 @@
             $('#dua').keyup(function(e) {
                 if (this.value.length == this.maxLength) {
                     $('#tiga').focus();
-                }else if(e.which == 8){
+                } else if (e.which == 8) {
                     $('#satu').focus();
                 }
             })
             $('#tiga').keyup(function(e) {
                 if (this.value.length == this.maxLength) {
                     $('#empat').focus();
-                }else if(e.which == 8){
+                } else if (e.which == 8) {
                     $('#dua').focus();
                 }
             })
             $('#empat').keyup(function(e) {
                 if (this.value.length == this.maxLength) {
                     $('#lima').focus();
-                }else if(e.which == 8){
+                } else if (e.which == 8) {
                     $('#tiga').focus();
                 }
             })
             $('#lima').keyup(function(e) {
                 if (this.value.length == this.maxLength) {
                     $('#enam').focus();
-                }else if(e.which == 8){
+                } else if (e.which == 8) {
                     $('#empat').focus();
                 }
             })
             $('#enam').keyup(function(e) {
-                if(e.which == 8){
+                if (e.which == 8) {
                     $('#lima').focus();
                 }
             })

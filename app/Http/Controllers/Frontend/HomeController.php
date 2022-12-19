@@ -11,7 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\RequestQr as RequestQrCode;
 use App\Http\Requests\RegisterPartnerRequest;
 use Illuminate\Support\Facades\{Hash, Session, Validator, DB};
-use App\Models\{Kontak, ProductScanned, ProdukRating, QrCode, Report, RequestQr, SettingWeb};
+use App\Models\{BusinessVideo, Kontak, ProductScanned, ProdukRating, QrCode, Report, RequestQr, SettingWeb};
 
 class HomeController extends Controller
 {
@@ -355,5 +355,16 @@ class HomeController extends Controller
         $xml = file_get_contents(public_path('sitemap.xml'));
         $object = simplexml_load_file($xml);
         return $object;
+    }
+
+    public function BisnisVideo()
+    {
+        $qrcode = QrCode::where('serial_number', request()->get('sn'))
+            ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
+            ->join('products', 'request_qrs.product_id', '=', 'products.id')
+            ->get('business_id');
+
+        $video = BusinessVideo::where('business_id', $qrcode[0]->business_id)->first();
+        return response()->json($video, 200);
     }
 }

@@ -5,12 +5,18 @@
             <select class="form-select @error('name') is-invalid @enderror" name="name" id="name"
                 aria-label="Default select example" required>
                 <option value="">Pilih jenis sosial media</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Facebook">Facebook</option>
-                <option value="Twitter">Twitter</option>
-                <option value="Linkedin">Linkedin</option>
-                <option value="Tiktok">Tiktok</option>
-                <option value="Store">Store</option>
+                <option value="Instagram">Sosial Media Instagram</option>
+                <option value="Facebook">Sosial Media Facebook</option>
+                <option value="Twitter">Sosial Media Twitter</option>
+                <option value="Linkedin">Sosial Media Linkedin</option>
+                <option value="Tiktok">Sosial Media Tiktok</option>
+                <option value="Whatsapp">CS Whatsapp</option>
+                <option value="Telepon">CS Telepon</option>
+                <option value="TiktokShop">TiktokShop</option>
+                <option value="Lazada">Lazada</option>
+                <option value="Shopee">Shopee</option>
+                <option value="Tokopedia">Tokopedia</option>
+                <option value="Buka Lapak">Bukalapak</option>
             </select>
             @error('name')
                 <span class="text-danger">

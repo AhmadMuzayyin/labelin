@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\partner\BusinessController as PartnerBusinessCo
 use App\Http\Controllers\Backend\partner\{DashboardPartnerController, ProductController, RequestQrController, ProfilePartnerController};
 use App\Http\Controllers\Backend\{UserController, RolesController, DashboardController, SettingWebController, BusinessController, BusinessPartnerController, CategoryController, PartnerController, TypeQrController, KontakController, ProductAllPartnerController, QrController, RequestAllPartnerController};
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\VideoBusinessController;
 
 Auth::routes(['register' => false]);
 // Route Front end
@@ -27,6 +28,7 @@ Route::get('/scan/{id}', [HomeController::class, 'scan'])->name('scan');
 Route::any('/cek_produk', [HomeController::class, 'cek_produk'])->name('cek_produk');
 Route::post('/rating/{id}', [HomeController::class, 'rating'])->name('produk_rating');
 Route::post('/report/{id}', [HomeController::class, 'report'])->name('produk_report');
+Route::get('/getVideo', [HomeController::class, 'BisnisVideo'])->name('bisnis.video');
 Route::get('ketentuan', function () {
     $settings = SettingWeb::first();
     return view('pageFrontEnd.ketentuan', ['setting_web' => $settings]);
@@ -95,7 +97,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
         Route::post('/upResi', 'upResi')->name('upResi');
     });
     Route::controller(ProductAllPartnerController::class)->group(function () {
-        Route::get('/productAll', 'admin')->name('productAll');
+        Route::get('/productAll', 'index')->name('productAll');
         Route::get('/productAll/{id}', 'show')->name('productAll.show');
     });
     Route::controller(UserScanController::class)->group(function () {

@@ -63,7 +63,7 @@
         </div>
     </div>
     @isset($business)
-        <div class="col-md-6 mb-2">
+        <div class="col-md-12 mb-2">
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group ms-3">
@@ -96,17 +96,68 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12 mb-2">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group ms-3">
+                        <label for="video">{{ __('Video') }}</label>
+                        <input type="file" name="video" class="form-control @error('video') is-invalid @enderror"
+                            id="video">
+                        <small class="text-danger">
+                            <p>Format video harus .mp4 (Max:3Mb)</p>
+                        </small>
+
+                        @error('logo')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                        <div id="logoHelpBlock" class="form-text">
+                            {{ __('Biarkan video kosong jika tidak ingin diganti.') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    @if ($video == null)
+                        <img src="https://via.placeholder.com/350?text=No+Video+Avaiable" alt="Video"
+                            class="rounded mb-2 mt-2" width="200" height="150"
+                            style="object-fit: cover">
+                    @else
+                        <video id="video" width="200" height="150" autoplay loop class="rounded mb-2 mt-2">
+                            <source src="{{ asset('storage/uploads/video/' . $video->video) }}"
+                                type="video/mp4">
+                        </video>
+                    @endif
+                </div>
+            </div>
+        </div>
     @else
         <div class="col-md-6 mb-2">
             <div class="form-group">
                 <label for="logo">{{ __('Logo') }}</label>
-                <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror" id="logo"
-                    required>
+                <input type="file" name="logo" class="form-control @error('logo') is-invalid @enderror"
+                    id="logo" required>
                 <small class="text-danger">
                     <p>Format logo harus .png (150x200px)</p>
                 </small>
 
                 @error('logo')
+                    <span class="text-danger">
+                        {{ $message }}
+                    </span>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="form-group">
+                <label for="video">{{ __('Video Pendek') }}</label>
+                <input type="file" name="video" class="form-control @error('video') is-invalid @enderror"
+                    id="video">
+                <small class="text-danger">
+                    <p>Format video harus .mp4 (max:3Mb). Dikosongkan jika tidak perlu!</p>
+                </small>
+
+                @error('video')
                     <span class="text-danger">
                         {{ $message }}
                     </span>
