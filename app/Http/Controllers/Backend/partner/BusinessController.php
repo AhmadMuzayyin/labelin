@@ -136,12 +136,20 @@ class BusinessController extends Controller
             if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
-
             $request->file('video')->move($path, $filename);
 
+            // delete old video from storage
             $video = BusinessVideo::firstWhere('business_id', $business->id);
-            $video->video = $filename;
-            $video->save();
+            if ($video != null && file_exists($path . $video->video)) {
+                unlink($path . $video->video);
+                $video->video = $filename;
+                $video->save();
+            } else {
+                $SaveVid = new BusinessVideo();
+                $SaveVid->business_id = $business->id;
+                $SaveVid->video = $filename;
+                $SaveVid->save();
+            }
         }
 
         Alert::toast('Data berhasil diupdate', 'success');

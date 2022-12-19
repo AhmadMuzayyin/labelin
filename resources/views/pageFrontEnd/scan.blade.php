@@ -70,9 +70,18 @@
 
                     <!-- Konten -->
                     <div class="content bg-light py-5 px-3">
-                        <video id="video" width="300" height="250" autoplay loop muted>
-                            <source src="" type="video/mp4">
-                        </video>
+                        @if (getVideo(Request::segment(2)))
+                            @php
+                                $video = getVideo(Request::segment(2));
+                            @endphp
+                            <div class="justify-content-center text-center align-items-center">
+                                <video id="video" width="300" height="250" autoplay loop name="media" muted>
+                                    <source src="{{ asset('storage/uploads/video/' . $video->video) }}"
+                                        type="video/mp4">
+                                    Browser anda tidak suport untuk menampilkan video.
+                                </video>
+                            </div>
+                        @endif
                         <form action="{{ route('cek_produk') }}" method="POST">
                             @csrf
                             <input type="hidden" name="latitude" id="latitude">
@@ -191,25 +200,6 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            // get iklan video
-            var sn = '{{ Request::segment(2) }}';
-            $.ajax({
-                type: 'GET',
-                url: '{{ route('bisnis.video') }}',
-                data: {
-                    sn: sn
-                },
-                success: function(res) {
-                    $('video source').attr('src', "{{ asset('storage/uploads/video/') }}" +
-                        '/' + res.video);
-                    $('#video').muted = true
-                    $('#video').get(0).play()
-                },
-            })
-        })
-    </script>
     <script>
         $(document).ready(function() {
             // untuk memeriksa jika browser tidak support maka akan muncul alert

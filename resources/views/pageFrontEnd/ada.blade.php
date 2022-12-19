@@ -117,7 +117,7 @@
 
                         <!-- Media Sosial -->
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">Terhubung link social media official!</div>
+                            <div class="fw-bold text-center mb-3">Terhubung via akun resmi!</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)
@@ -198,7 +198,7 @@
                         </div>
                         {{-- store --}}
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">Dapat produk di oficial store!</div>
+                            <div class="fw-bold text-center mb-3">Dapatkan produk di online store resmi!</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)
@@ -254,7 +254,7 @@
                         </div>
                         {{-- CS --}}
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">Terhubung dengan Customer Care!</div>
+                            <div class="fw-bold text-center mb-3">erhubung dengan Customer Care!</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)

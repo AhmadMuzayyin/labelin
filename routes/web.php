@@ -28,7 +28,6 @@ Route::get('/scan/{id}', [HomeController::class, 'scan'])->name('scan');
 Route::any('/cek_produk', [HomeController::class, 'cek_produk'])->name('cek_produk');
 Route::post('/rating/{id}', [HomeController::class, 'rating'])->name('produk_rating');
 Route::post('/report/{id}', [HomeController::class, 'report'])->name('produk_report');
-Route::get('/getVideo', [HomeController::class, 'BisnisVideo'])->name('bisnis.video');
 Route::get('ketentuan', function () {
     $settings = SettingWeb::first();
     return view('pageFrontEnd.ketentuan', ['setting_web' => $settings]);

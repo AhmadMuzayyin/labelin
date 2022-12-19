@@ -24,11 +24,13 @@ class UpdateBusinessRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|min:1|max:20|unique:businesses,code,' . $this->business->id,
-			'name' => 'required|string|min:1|max:100',
-			'brand' => 'required|string|min:1|max:100',
-			'logo' => 'nullable|image|max:1024',
-			'manufacture' => 'required|string|min:1|max:255',
+            'code' => 'required|string|min:1|max:20|unique:businesses,code',
+            'name' => 'required|string|min:1|max:100',
+            'partner_id' => 'required|string',
+            'brand' => 'required|string|min:1|max:100',
+            'logo' => 'required|image|max:1024|mimes:png',
+            'manufacture' => 'required|string|min:1|max:255',
+            'video' => 'max:3050|mimes:mp4',
         ];
     }
 }
