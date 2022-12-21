@@ -24,13 +24,14 @@ class UpdateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|min:1|max:20',
+            'production_code' => 'required|string|min:1|max:20',
             'name' => 'required|string|min:1|max:200',
             'category_id' => 'required|exists:App\Models\Category,id',
             'business_id' => 'required|exists:App\Models\Business,id',
             'bpom' => 'required|string|min:1|max:200',
             'description' => 'required|string',
-            'kemasan' => 'required|string|min:1|max:200',
+            'expired_date' => 'required|string',
+            'netto' => 'required|string|min:1|max:200',
             'photo' => 'nullable|image|max:1024',
         ];
     }

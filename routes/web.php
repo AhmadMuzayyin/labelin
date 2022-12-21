@@ -14,7 +14,6 @@ use App\Http\Controllers\Backend\partner\BusinessController as PartnerBusinessCo
 use App\Http\Controllers\Backend\partner\{DashboardPartnerController, ProductController, RequestQrController, ProfilePartnerController};
 use App\Http\Controllers\Backend\{UserController, RolesController, DashboardController, SettingWebController, BusinessController, BusinessPartnerController, CategoryController, PartnerController, TypeQrController, KontakController, ProductAllPartnerController, QrController, RequestAllPartnerController};
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\VideoBusinessController;
 
 Auth::routes(['register' => false]);
 // Route Front end
@@ -49,11 +48,13 @@ Route::prefix('partner')->middleware('PartnerLogin')->group(function () {
     Route::name('part-bus')->resource('/business', PartnerBusinessController::class);
     Route::get('/partnerTypeQr', [PartnerTypeQrController::class, 'index'])->name('partnerTypeQr');
     Route::resource('/products', ProductController::class);
-    Route::get('/request-qrs/{filename}/download', [RequestQrController::class, 'download'])->name('request-qrs.download');
+
+    Route::get('/request-qrs', [RequestQrController::class, 'index'])->name('request-qrs.index');
+    Route::get('/request-qrs/{requestQr}/show', [RequestQrController::class, 'show'])->name('request-qrs.show');
     Route::get('/request-qrs/{id}/upload', [RequestQrController::class, 'uploadView'])->name('request-qrs.upload');
     Route::put('/request-qrs/{id}/upload', [RequestQrController::class, 'upload'])->name('request-qrs.upload.save');
     Route::get('/request-qrs/print/{id}', [RequestQrController::class, 'export'])->name('request-qrs.export');
-    Route::resource('/request-qrs', RequestQrController::class);
+    Route::get('/request-qrs/{filename}/download', [RequestQrController::class, 'download'])->name('partner.request-qrs.download');
 
     Route::controller(SosmedController::class)->group(function () {
         Route::get('/sosmed', 'index')->name('sosmed.index');
@@ -95,6 +96,18 @@ Route::prefix('panel')->middleware('auth')->group(function () {
         Route::post('/upProgress', 'upProgress')->name('upProgress');
         Route::post('/upResi', 'upResi')->name('upResi');
     });
+    Route::controller(RequestQrController::class)->group(function () {
+        Route::get('/request-qrs/create', 'create')->name('request-qrs.create');
+        Route::post('/request-qrs/store', 'store')->name('request-qrs.store');
+        Route::get('/request-qrs/{requestQr}/edit', 'edit')->name('request-qrs.edit');
+        Route::put('/request-qrs/update/{requestQr}', 'update')->name('request-qrs.update');
+        Route::delete('/request-qrs/destroy/{requestQr}', 'destroy')->name('request-qrs.destroy');
+        Route::get('/request-qrs/{filename}/download', 'download')->name('request-qrs.download');
+    });
+    Route::controller(QrController::class)->group(function () {
+        Route::get('/export/{id}', 'export')->name('export.qr');
+    });
+
     Route::controller(ProductAllPartnerController::class)->group(function () {
         Route::get('/productAll', 'index')->name('productAll');
         Route::get('/productAll/{id}', 'show')->name('productAll.show');
@@ -108,9 +121,6 @@ Route::prefix('panel')->middleware('auth')->group(function () {
         Route::get('/kontak', 'index')->name('kontak.index');
     });
     Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-    Route::controller(QrController::class)->group(function () {
-        Route::get('/export/{id}', 'export')->name('export.qr');
-    });
     Route::resource('/roles', RolesController::class);
     Route::resource('/user', UserController::class);
     Route::resource('/categories', CategoryController::class);

@@ -55,14 +55,6 @@
                 </a>
             </div>
             <div class="menu-item">
-                <a href="{{ route('partnerTypeQr') }}" class="menu-link">
-                    <div class="menu-icon">
-                        <i class="fa fa-qrcode" aria-hidden="true"></i>
-                    </div>
-                    <div class="menu-text">Type QR</div>
-                </a>
-            </div>
-            <div class="menu-item">
                 <a href="{{ route('partner.profile') }}" class="menu-link">
                     <div class="menu-icon">
                         <i class="fa fa-user" aria-hidden="true"></i>

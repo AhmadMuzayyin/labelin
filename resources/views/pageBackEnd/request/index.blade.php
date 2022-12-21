@@ -23,6 +23,8 @@
                         </div>
                     </div>
                     <div class="panel-body">
+                        <a href="{{ route('request-qrs.create') }}" class="btn btn-sm btn-success mb-3"><i
+                                class="fas fa-plus"></i> TAMBAH</a>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">
@@ -32,7 +34,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>{{ __('Kode Request')  }}</th>
+                                                        <th>{{ __('Kode Request') }}</th>
                                                         <th>{{ __('Produk') }}</th>
                                                         <th>{{ __('Type Qr') }}</th>
                                                         <th>{{ __('Qty') }}</th>
@@ -55,8 +57,7 @@
 @endsection
 @push('js')
     <script>
-        let columns = [
-            {
+        let columns = [{
                 data: 'DT_RowIndex',
                 name: 'DT_RowIndex',
                 orderable: false,

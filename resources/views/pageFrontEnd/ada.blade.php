@@ -96,8 +96,18 @@
                                 @endif
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center p-0 py-1 border-0">
-                                    <span class="text-muted">Kemasan Produk</span>
-                                    <span>{{ $produk->kemasan }}</span>
+                                    <span class="text-muted">Netto</span>
+                                    <span>{{ $produk->packaging }}</span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center p-0 py-1 border-0">
+                                    <span class="text-muted">Tanggal Kadaluarsa</span>
+                                    <span>{{ \Carbon\Carbon::parse($produk->expired_date)->format('d-m-Y') }}</span>
+                                </li>
+                                <li
+                                    class="list-group-item d-flex justify-content-between align-items-center p-0 py-1 border-0">
+                                    <span class="text-muted">Kode Produksi</span>
+                                    <span>{{ $produk->production_code }}</span>
                                 </li>
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center p-0 py-1 border-0">

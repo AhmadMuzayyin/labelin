@@ -100,14 +100,6 @@
                                     $requestQr[0]->tgl_upload_bukti_bayar : '-' }}
                                 </td>
                             </tr>
-                            {{-- <tr>
-                                <td class="fw-bold">{{ __('Created at') }}</td>
-                                <td>{{ $requestQr[0]->created_at }}</td>
-                            </tr>
-                            <tr>
-                                <td class="fw-bold">{{ __('Updated at') }}</td>
-                                <td>{{ $requestQr[0]->updated_at }}</td>
-                            </tr> --}}
                             <tr>
                                 <td class="fw-bold">{{ __('Generate QR') }}</td>
                                 <td>{{ $requestQr[0]->is_generate }}</td>

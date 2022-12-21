@@ -1,10 +1,10 @@
 <div class="row mb-2">
     <div class="col-md-6 mb-2">
         <div class="form-group">
-            <label for="code">{{ __('Code') }}</label>
-            <input type="number" name="code" id="code" class="form-control @error('code') is-invalid @enderror"
-                value="{{ isset($product) ? $product->code : old('code') }}" placeholder="{{ __('Code') }}" required />
-            @error('code')
+            <label for="production_code">{{ __('Production Code') }}</label>
+            <input type="text" name="production_code" id="production_code" class="form-control @error('production_code') is-invalid @enderror"
+                value="{{ isset($product) ? $product->production_code : old('production_code') }}" placeholder="{{ __('Production Code') }}" required />
+            @error('production_code')
                 <span class="text-danger">
                     {{ $message }}
                 </span>
@@ -89,6 +89,32 @@
             @enderror
         </div>
     </div>
+    <div class="col-md-6 mb-2">
+        <div class="form-group">
+            <label for="expired_date">{{ __('Expired date') }}</label>
+            <input type="date" name="expired_date" id="expired_date" class="form-control @error('expired_date') is-invalid @enderror"
+                value="{{ isset($product) ? $product->expired_date : old('expired_date') }}" placeholder="{{ __('Expired date') }}"
+                required />
+            @error('expired_date')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    </div>
+    <div class="col-md-6 mb-2">
+        <div class="form-group">
+            <label for="netto">{{ __('Netto') }}</label>
+            <input type="text" name="netto" class="form-control @error('netto') is-invalid @enderror"
+                id="netto" required value="{{ isset($product) ? $product->netto : old('netto') }}">
+
+            @error('netto')
+                <span class="text-danger">
+                    {{ $message }}
+                </span>
+            @enderror
+        </div>
+    </div>
     @isset($product)
         <div class="col-md-6 mb-2">
             <div class="row">
@@ -136,18 +162,4 @@
             </div>
         </div>
     @endisset
-
-    <div class="col-md-6 mb-2">
-        <div class="form-group">
-            <label for="kemasan">{{ __('Kemasan') }}</label>
-            <input type="text" name="kemasan" class="form-control @error('kemasan') is-invalid @enderror"
-                id="kemasan" required value="{{ isset($product) ? $product->kemasan : old('kemasan') }}">
-
-            @error('kemasan')
-                <span class="text-danger">
-                    {{ $message }}
-                </span>
-            @enderror
-        </div>
-    </div>
 </div>

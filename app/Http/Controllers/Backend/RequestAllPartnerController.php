@@ -15,7 +15,7 @@ class RequestAllPartnerController extends Controller
     public function index(Request $request)
     {
         if (request()->ajax()) {
-            $requestQrs = RequestQr::with('product:id,code,name', 'type_qr:id,name');
+            $requestQrs = RequestQr::with('product:id,name', 'type_qr:id,name');
 
             return Datatables::of($requestQrs)
                 ->addIndexColumn()

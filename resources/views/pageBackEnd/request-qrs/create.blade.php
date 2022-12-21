@@ -1,4 +1,4 @@
-@extends('layouts.masterBackEndPartner')
+@extends('layouts.masterBackEnd')
 
 @section('title', 'Tambah Request Qrs')
 
@@ -27,9 +27,9 @@
                             @csrf
                             @method('POST')
 
-                            @include('pageBackEnd.pageBackEndPartner.request-qrs.include.form')
+                            @include('pageBackEnd.request-qrs.include.form')
 
-                            <a href="{{ route('request-qrs.index') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
+                            <a href="{{ route('requestAll') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
 
                             <button type="submit" class="btn btn-primary">{{ __('Simpan') }}</button>
                         </form>

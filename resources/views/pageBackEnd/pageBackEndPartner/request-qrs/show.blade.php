@@ -59,7 +59,7 @@
                                     <td class="fw-bold">{{ __('Bukti Pembayaran') }}</td>
                                     <td>
                                         @if ($requestQr->bukti_pembayaran)
-                                            <a href="{{ route('request-qrs.download', $requestQr->bukti_pembayaran) }}"
+                                            <a href="{{ route('partner.request-qrs.download', $requestQr->bukti_pembayaran) }}"
                                                 target="_blank">Download</a>
                                         @else
                                             -
@@ -79,15 +79,6 @@
                                     <td class="fw-bold">{{ __('Nomor Resi') }}</td>
                                     <td>{{ $requestQr->no_resi }}</td>
                                 </tr>
-
-                                {{-- <tr>
-                                    <td class="fw-bold">{{ __('Created at') }}</td>
-                                    <td>{{ $requestQr->created_at->format('d/m/Y H:i') }}</td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold">{{ __('Updated at') }}</td>
-                                    <td>{{ $requestQr->updated_at->format('d/m/Y H:i') }}</td>
-                                </tr> --}}
                                 <tr>
                                     <td class="fw-bold">{{ __('Histori') }}</td>
                                     <td>

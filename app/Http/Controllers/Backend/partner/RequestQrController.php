@@ -12,6 +12,7 @@ use App\Models\Product;
 use App\Models\QrCode;
 use App\Models\TypeQr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\Facades\DataTables;
@@ -31,8 +32,9 @@ class RequestQrController extends Controller
 
     public function index()
     {
+        abort_if(Auth()->user(), Response::HTTP_FORBIDDEN);
         if (request()->ajax()) {
-            $requestQrs = RequestQr::with('product:id,code,name', 'type_qr:id,name')->where('partner_id', session()->get('id-partner'));
+            $requestQrs = RequestQr::with('product:id,name', 'type_qr:id,name')->where('partner_id', session()->get('id-partner'));
 
             return Datatables::of($requestQrs)
                 ->addIndexColumn()
@@ -50,11 +52,11 @@ class RequestQrController extends Controller
 
     public function create()
     {
-        $products = Product::select('id', 'code', 'name')->where('partner_id', session()->get('id-partner'))->limit(500)->get();
+        $products = Product::select('id', 'production_code', 'name')->limit(500)->get();
         $typeQrs = TypeQr::select('id', 'name')->limit(500)->get();
         $kode_request = $this->generateRandomString();
 
-        return view('pageBackEnd.pageBackEndPartner.request-qrs.create', compact('products', 'typeQrs', 'kode_request'));
+        return view('pageBackEnd.request-qrs.create', compact('products', 'typeQrs', 'kode_request'));
     }
 
     public function store(StoreRequestQrRequest $request)
@@ -65,7 +67,9 @@ class RequestQrController extends Controller
         $attr['tanggal_request'] = now()->toDateTimeString();
         $attr['harga_satuan'] = $typeQr->price;
         $attr['status'] = 'Waiting Payment';
-        $attr['partner_id'] = session()->get('id-partner');
+        // get partner id
+        $partner_id = Product::select('partner_id')->where('id', $request->product_id)->first()->toArray();
+        $attr['partner_id'] = $partner_id['partner_id'];
 
         $requestQr = RequestQr::create($attr);
 
@@ -78,7 +82,7 @@ class RequestQrController extends Controller
 
         Alert::toast('Data berhasil disimpan', 'success');
 
-        return redirect()->route('request-qrs.index');
+        return redirect()->route('requestAll');
     }
 
     public function show(RequestQr $requestQr)
@@ -86,7 +90,7 @@ class RequestQrController extends Controller
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
         abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
 
-        $requestQr->load('product:id,code,name', 'type_qr:id,name,price', 'histories:id,request_qr_id,status,created_at');
+        $requestQr->load('product:id,name', 'type_qr:id,name,price', 'histories:id,request_qr_id,status,created_at');
 
         return view('pageBackEnd.pageBackEndPartner.request-qrs.show', compact('requestQr'));
     }
@@ -94,26 +98,26 @@ class RequestQrController extends Controller
     public function edit(RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
-        abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
-
+        abort_if(!Auth()->user(), Response::HTTP_FORBIDDEN);
+        // dd($requestQr);
         if (!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])) {
             Alert::error('Data tidak dapat diubah', 'error');
 
-            return redirect()->route('request-qrs.index');
+            return redirect()->route('requestAll');
         }
 
-        $requestQr->load('product:id,code,name', 'type_qr:id,name,price');
+        $requestQr->load('product:id,production_code,name', 'type_qr:id,name,price');
 
-        $products = Product::select('id', 'code', 'name')->limit(500)->get();
+        $products = Product::select('id', 'production_code', 'name')->limit(500)->get();
         $typeQrs = TypeQr::select('id', 'name')->limit(500)->get();
 
-        return view('pageBackEnd.pageBackEndPartner.request-qrs.edit', compact('products', 'typeQrs', 'requestQr'));
+        return view('pageBackEnd.request-qrs.edit', compact('products', 'typeQrs', 'requestQr'));
     }
 
     public function update(UpdateRequestQrRequest $request, RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
-        abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
+        abort_if(!Auth()->user(), Response::HTTP_FORBIDDEN);
 
         $attr = $request->validated();
         $typeQr = TypeQr::select('id', 'price')->find($request->type_qr_id);
@@ -124,13 +128,13 @@ class RequestQrController extends Controller
 
         Alert::toast('Data berhasil diupdate', 'success');
 
-        return redirect()->route('request-qrs.index');
+        return redirect()->route('requestAll');
     }
 
     public function destroy(RequestQr $requestQr)
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $requestQr->partner_id);
-        abort_if(session()->get('id-partner') != $requestQr->partner_id, Response::HTTP_FORBIDDEN);
+        abort_if(!Auth()->user(), Response::HTTP_FORBIDDEN);
 
         if (!in_array($requestQr->status, ['Waiting Payment', 'Pending Payment'])) {
             Alert::error('Data gagal dihapus', 'error');
@@ -149,11 +153,11 @@ class RequestQrController extends Controller
 
             Alert::toast('Data berhasil dihapus', 'success');
 
-            return redirect()->route('request-qrs.index');
+            return redirect()->route('requestAll');
         } catch (\Throwable $th) {
             Alert::error('Data gagal dihapus', 'error');
 
-            return redirect()->route('request-qrs.index');
+            return redirect()->route('requestAll');
         }
     }
 

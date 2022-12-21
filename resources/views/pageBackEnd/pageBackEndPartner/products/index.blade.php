@@ -27,12 +27,12 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Code</th>
-                                        <th>Nama Produk</th>
-                                        <th>Bisnis</th>
-                                        <th>Kategori</th>
+                                        <th>Production Code</th>
+                                        <th>Product Name</th>
+                                        <th>Business</th>
+                                        <th>Category</th>
                                         <th>Bpom</th>
-                                        <th>Deskripsi</th>
+                                        <th>Description</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -56,8 +56,8 @@
                 searchable: false
             },
             {
-                data: 'code',
-                name: 'code'
+                data: 'production_code',
+                name: 'production_code'
             },
             {
                 data: 'name',

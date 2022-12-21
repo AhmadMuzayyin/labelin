@@ -23,10 +23,6 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                            <a href="{{ route('request-qrs.create') }}" class="btn btn-primary mb-3">
-                                <i class="fas fa-plus"></i>
-                                {{ __('Create a new request QR') }}
-                            </a>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="card">

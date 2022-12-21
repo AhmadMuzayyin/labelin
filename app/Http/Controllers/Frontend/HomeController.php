@@ -173,10 +173,10 @@ class HomeController extends Controller
                 ->join('request_qrs', 'qr_codes.request_qr_id', '=', 'request_qrs.id')
                 ->join('products', 'request_qrs.product_id', '=', 'products.id')
                 ->join('categories', 'products.category_id', '=', 'categories.id')
-                ->join('businesses', 'products.business_id', 'businesses.id')
+                ->join('businesses', 'products.business_id', '=', 'businesses.id')
                 ->where('qr_codes.serial_number', $request->sn)
                 ->where('qr_codes.pin', $pin)
-                ->select('products.name as nama_produk', 'categories.name as nama_kategori', 'businesses.logo as logo_brand', 'businesses.brand as nama_brand', 'products.bpom', 'products.photo', 'products.id', 'products.kemasan')
+                ->select('products.name as nama_produk', 'categories.name as nama_kategori', 'businesses.logo as logo_brand', 'businesses.brand as nama_brand', 'products.bpom', 'products.photo', 'products.id', 'products.netto', 'products.expired_date', 'products.production_code')
                 ->first();
 
             // cek duplicate data
