@@ -21,12 +21,13 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Business::class)->constrained();
             $table->foreignIdFor(Partner::class)->constrained();
-            $table->string('code', 20);
+            $table->string('production_code', 20);
             $table->string('name');
             $table->string('slug');
             $table->string('bpom');
             $table->text('description');
-            $table->string('kemasan');
+            $table->date('expired_date');
+            $table->string('netto');
             $table->string('photo');
             $table->timestamps();
         });

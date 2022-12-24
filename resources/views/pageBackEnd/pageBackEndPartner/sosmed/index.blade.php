@@ -1,6 +1,6 @@
 @extends('layouts.masterBackEndPartner')
 
-@section('title', 'Data Sosial Media')
+@section('title', 'Data Custom Link Resmi')
 
 @section('content')
     <div id="content" class="app-content">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <a href="{{ route('sosmed.create') }}" class="btn btn-sm btn-success mb-3">
+                        <a href="{{ route('custom.link.create') }}" class="btn btn-sm btn-success mb-3">
                             <i class="fas fa-plus"></i> TAMBAH
                         </a>
 

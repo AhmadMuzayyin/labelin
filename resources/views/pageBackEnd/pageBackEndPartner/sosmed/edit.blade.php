@@ -1,6 +1,6 @@
 @extends('layouts.masterBackEndPartner')
 
-@section('title', 'Edit Sosial media')
+@section('title', 'Edit Data Custom Link Resmi')
 
 @section('content')
     <div id="content" class="app-content">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('sosmed.update', $sosmed->id) }}" method="POST">
+                        <form action="{{ route('custom.link.update', $sosmed->id) }}" method="POST">
                             @csrf
                             @method('PUT')
 
@@ -75,7 +75,7 @@
                                 @enderror
                             </div>
 
-                            <a href="{{ route('sosmed.index') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
+                            <a href="{{ route('custom.link.index') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
 
                             <button type="submit" class="btn btn-primary">{{ __('Update') }}</button>
                         </form>

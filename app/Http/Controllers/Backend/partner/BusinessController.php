@@ -102,7 +102,7 @@ class BusinessController extends Controller
     {
         // Gate::allowIf(fn () => session()->get('id-partner') == $business->partner_id);
         abort_if(session()->get('id-partner') != $business->partner_id, Response::HTTP_FORBIDDEN);
-
+        // dd($this->business);
         $attr = $request->validated();
 
         if ($request->file('logo') && $request->file('logo')->isValid()) {

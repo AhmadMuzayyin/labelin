@@ -53,16 +53,16 @@ Route::prefix('partner')->middleware('PartnerLogin')->group(function () {
     Route::get('/request-qrs/{requestQr}/show', [RequestQrController::class, 'show'])->name('request-qrs.show');
     Route::get('/request-qrs/{id}/upload', [RequestQrController::class, 'uploadView'])->name('request-qrs.upload');
     Route::put('/request-qrs/{id}/upload', [RequestQrController::class, 'upload'])->name('request-qrs.upload.save');
-    Route::get('/request-qrs/print/{id}', [RequestQrController::class, 'export'])->name('request-qrs.export');
+    Route::get('/request-qrs/export/{id}', [QrController::class, 'export'])->name('request-qrs.export');
     Route::get('/request-qrs/{filename}/download', [RequestQrController::class, 'download'])->name('partner.request-qrs.download');
 
     Route::controller(SosmedController::class)->group(function () {
-        Route::get('/sosmed', 'index')->name('sosmed.index');
-        Route::get('sosmed/create', 'create')->name('sosmed.create');
-        Route::post('/sosmed', 'store')->name('sosmed.store');
-        Route::get('/sosmed/edit/{id}', 'edit')->name('sosmed.edit');
-        Route::put('/sosmed/update/{id}', 'update')->name('sosmed.update');
-        Route::delete('/sosmed/destroy/{id}', 'destroy')->name('sosmed.destroy');
+        Route::get('/custom_link', 'index')->name('custom.link.index');
+        Route::get('custom_link/create', 'create')->name('custom.link.create');
+        Route::post('/custom_link', 'store')->name('custom.link.store');
+        Route::get('/custom_link/edit/{id}', 'edit')->name('custom.link.edit');
+        Route::put('/custom_link/update/{id}', 'update')->name('custom.link.update');
+        Route::delete('/custom_link/destroy/{id}', 'destroy')->name('custom.link.destroy');
     });
     Route::controller(UserScanController::class)->group(function () {
         Route::get('user-scan', 'partner')->name('user.scan.partner');

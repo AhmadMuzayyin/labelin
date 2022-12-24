@@ -27,12 +27,13 @@ class StoreRequestQrRequest extends FormRequest
 
         return [
             'product_id' => 'required|exists:App\Models\Product,id',
-			'type_qr_id' => 'required|exists:App\Models\TypeQr,id',
-			'qty' => 'required|numeric|min:1',
-			'sn_length' => 'required|numeric|min:5|max:10',
+            'type_qr_id' => 'required|exists:App\Models\TypeQr,id',
+            'harga_pcs' => 'required|numeric|min:1',
+            'qty' => 'required|numeric|min:1',
+            'sn_length' => 'required|numeric|min:5|max:10',
             'code' => 'string|required|max:100'
             // 'tanggal_request' => 'required|date',
-			// 'bukti_pembayaran' => 'nullable|mimes:png,jpg,jpeg,pdf,docx,doc|max:1024',
+            // 'bukti_pembayaran' => 'nullable|mimes:png,jpg,jpeg,pdf,docx,doc|max:1024',
         ];
     }
 }

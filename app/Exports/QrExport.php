@@ -24,8 +24,15 @@ class QrExport implements FromView
             ->select('qr_codes.*', 'products.name as nama_produk')
             ->where('qr_codes.request_qr_id', '=', $this->request_qr_id)
             ->get();
+        $batch_code = DB::table('batch_codes')
+            ->join('request_qrs', 'batch_codes.request_qr_id', '=', 'request_qrs.id')
+            ->join('products', 'request_qrs.product_id', '=', 'products.id')
+            ->where('batch_codes.request_qr_id', '=', $this->request_qr_id)
+            ->select('batch_codes.batch_code')
+            ->get();
         return view('pageBackEnd.request.export', [
-            'data' => $data
+            'data' => $data,
+            'batch_code' => $batch_code
         ]);
     }
 }

@@ -261,13 +261,13 @@ Breadcrumbs::for('requestQr', function (BreadcrumbTrail $trail) {
 });
 // Sosmed
 Breadcrumbs::for('sosmed', function (BreadcrumbTrail $trail) {
-    $trail->push('Data Sosial Media', route('sosmed.index'));
+    $trail->push('Data Custom Link Resmi', route('custom.link.index'));
 });
 Breadcrumbs::for('sosmedCreate', function (BreadcrumbTrail $trail) {
-    $trail->push('Create Data Sosial Media', route('sosmed.create'));
+    $trail->push('Create Data Custom Link Resmi', route('custom.link.create'));
 });
 Breadcrumbs::for('sosmedEdit', function (BreadcrumbTrail $trail, $sosmed) {
-    $trail->push('Edit Data Sosial Media', route('sosmed.edit', $sosmed));
+    $trail->push('Edit Data Custom Link Resmi', route('custom.link.edit', $sosmed));
 });
 // User Scanned
 Breadcrumbs::for('user-scan-admin', function (BreadcrumbTrail $trail) {

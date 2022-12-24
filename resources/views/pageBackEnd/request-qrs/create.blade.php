@@ -26,7 +26,7 @@
                         <form action="{{ route('request-qrs.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
-
+                            
                             @include('pageBackEnd.request-qrs.include.form')
 
                             <a href="{{ route('requestAll') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>

@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\DB;
-use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\RequestQr;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class RequestAllPartnerController extends Controller
@@ -49,9 +50,14 @@ class RequestAllPartnerController extends Controller
     public function generateQR(Request $request)
     {
         $jml = $request->qty_qr;
+        $product = RequestQr::select('product_id')->where('id', $request->request_qr_id)->first();
+        // dd($this->generateBatchCode($product->product_id));
         DB::beginTransaction();
         try {
             for ($i = 1; $i <= $jml; $i++) {
+                // Generate Batch Code
+                $this->generateBatchCode($product->product_id, $request->request_qr_id);
+
                 $sn = $this->generateRandomString($request->sn_length);
                 $pin = $this->generateRandomPin();
                 // insert ke table qr
@@ -135,6 +141,49 @@ class RequestAllPartnerController extends Controller
         $characters = '123456789';
         $charactersLength = strlen($characters);
         $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return str($randomString)->upper();
+    }
+    public function generateBatchCode($product_id, $request_id)
+    {
+        $randString = strtoupper($this->randomHruf(2));
+        $minNumber = 00000001;
+        $maxNumber = 10000000;
+        $code = DB::table('batch_codes')->where('product_id', $product_id)->orderBy('id', 'desc')->limit(1)->get()->toArray();
+        if ($code != null) {
+            $code = $code[0]->batch_code;
+            $kode = (int) substr($code, 2);
+            $prefix = substr($code, 0, 2);
+            if ($kode < $maxNumber) {
+                $kode++;
+                $newcode = $prefix . str_pad($kode, 8, '0', STR_PAD_LEFT);
+                DB::table('batch_codes')->insert([
+                    'product_id' => $product_id,
+                    'request_qr_id' => $request_id,
+                    'batch_code' => $newcode,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        } else {
+            $newcode = $randString . str_pad($minNumber, 8, '0', STR_PAD_LEFT);
+            DB::table('batch_codes')->insert([
+                'product_id' => $product_id,
+                'request_qr_id' => $request_id,
+                'batch_code' => $newcode,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        }
+    }
+    function randomHruf($length)
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+
         for ($i = 0; $i < $length; $i++) {
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }

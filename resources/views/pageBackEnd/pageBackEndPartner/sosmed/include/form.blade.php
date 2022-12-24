@@ -4,19 +4,22 @@
             <label for="name">{{ __('Name') }}</label>
             <select class="form-select @error('name') is-invalid @enderror" name="name" id="name"
                 aria-label="Default select example" required>
-                <option value="">Pilih jenis sosial media</option>
+                <option value="" selected disabled>Pilih jenis sosial media</option>
                 <option value="Instagram">Sosial Media Instagram</option>
                 <option value="Facebook">Sosial Media Facebook</option>
                 <option value="Twitter">Sosial Media Twitter</option>
                 <option value="Linkedin">Sosial Media Linkedin</option>
                 <option value="Tiktok">Sosial Media Tiktok</option>
-                <option value="Whatsapp">CS Whatsapp</option>
-                <option value="Telepon">CS Telepon</option>
+                <option value="Youtube">Sosial Media Youtube</option>
+                <option value="" disabled>--------------------------------</option>
                 <option value="TiktokShop">TiktokShop</option>
                 <option value="Lazada">Lazada</option>
                 <option value="Shopee">Shopee</option>
                 <option value="Tokopedia">Tokopedia</option>
                 <option value="Buka Lapak">Bukalapak</option>
+                <option value="" disabled>--------------------------------</option>
+                <option value="Whatsapp">CS Whatsapp</option>
+                <option value="Telepon">CS Telepon</option>
             </select>
             @error('name')
                 <span class="text-danger">

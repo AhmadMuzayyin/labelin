@@ -55,9 +55,9 @@ class SosmedController extends Controller
             $sosmed->link_sosmed = $request->link;
             $sosmed->save();
             Alert::toast('Berhasil input data sosial media', 'success');
-            return to_route('sosmed.index');
+            return to_route('custom.link.index');
         } catch (\Throwable $th) {
-            //throw $th;
+            dd($th->getMessage());
         }
     }
     public function edit($id)
@@ -72,7 +72,7 @@ class SosmedController extends Controller
         $sosmed->link_sosmed = $request->link;
         $sosmed->save();
         Alert::toast('Data berhasil diupdate', 'success');
-        return to_route('sosmed.index');
+        return to_route('custom.link.index');
     }
 
     public function destroy($id)
@@ -80,6 +80,6 @@ class SosmedController extends Controller
         $sosmed = Sosmed::findOrFail($id);
         $sosmed->delete();
         Alert::toast('Data berhasil dihapus', 'success');
-        return to_route('sosmed.index');
+        return to_route('custom.link.index');
     }
 }

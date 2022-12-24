@@ -107,7 +107,7 @@
                             <p>Format video harus .mp4 (Max:3Mb)</p>
                         </small>
 
-                        @error('logo')
+                        @error('video')
                             <span class="text-danger">
                                 {{ $message }}
                             </span>

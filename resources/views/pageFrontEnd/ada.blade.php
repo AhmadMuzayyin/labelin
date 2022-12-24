@@ -97,7 +97,7 @@
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center p-0 py-1 border-0">
                                     <span class="text-muted">Netto</span>
-                                    <span>{{ $produk->packaging }}</span>
+                                    <span>{{ $produk->netto }}</span>
                                 </li>
                                 <li
                                     class="list-group-item d-flex justify-content-between align-items-center p-0 py-1 border-0">
@@ -127,7 +127,7 @@
 
                         <!-- Media Sosial -->
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">Terhubung via akun resmi!</div>
+                            <div class="fw-bold text-center mb-3">Terhubung via akun official</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)
@@ -144,7 +144,6 @@
                                                 <span class="color-main">Instagram</span>
                                             </a>
                                         @break
-
                                         @case('Facebook')
                                             <a href="{{ $item->link_sosmed }}"
                                                 class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
@@ -158,7 +157,6 @@
                                                 <span class="color-main">Facebook</span>
                                             </a>
                                         @break
-
                                         @case('Twitter')
                                             <a href="{{ $item->link_sosmed }}"
                                                 class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
@@ -172,7 +170,6 @@
                                                 <span class="color-main">Twitter</span>
                                             </a>
                                         @break
-
                                         @case('Linkedin')
                                             <a href="{{ $item->link_sosmed }}"
                                                 class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
@@ -186,7 +183,6 @@
                                                 <span class="color-main">Linkedin</span>
                                             </a>
                                         @break
-
                                         @case('Tiktok')
                                             <a href="{{ $item->link_sosmed }}"
                                                 class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
@@ -200,6 +196,14 @@
                                                 <span class="color-main">TikTok</span>
                                             </a>
                                         @break
+                                        @case('Youtube')
+                                            <a href="{{ $item->link_sosmed }}"
+                                                class="btn btn-primary bg-white border rounded-2 mt-2" type="button"
+                                                target="_blank">
+                                                <img src="https://srv4.imgonline.com.ua/result_img/imgonline-com-ua-ReplaceColor-X0RLuOQby1g.jpg" alt="Youtube" width="20" height="20">
+                                                <span class="color-main">Youtube</span>
+                                            </a>
+                                        @break
 
                                         @default
                                     @endswitch
@@ -208,7 +212,7 @@
                         </div>
                         {{-- store --}}
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">Dapatkan produk di online store resmi!</div>
+                            <div class="fw-bold text-center mb-3">Dapatkan produk di official store</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)
@@ -264,7 +268,7 @@
                         </div>
                         {{-- CS --}}
                         <div class="mb-3">
-                            <div class="fw-bold text-center mb-3">erhubung dengan Customer Care!</div>
+                            <div class="fw-bold text-center mb-3">Terhubung dengan Customer Care</div>
                             <ul class="list-group">
                                 @foreach ($sosmed as $item)
                                     @switch($item->name)

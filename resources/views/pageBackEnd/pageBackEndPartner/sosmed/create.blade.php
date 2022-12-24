@@ -1,6 +1,6 @@
 @extends('layouts.masterBackEndPartner')
 
-@section('title', 'Tambah Data Sosial Media')
+@section('title', 'Tambah Data Custom Link Resmi')
 
 @section('content')
     <div id="content" class="app-content">
@@ -23,13 +23,13 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ route('sosmed.store') }}" method="POST">
+                        <form action="{{ route('custom.link.store') }}" method="POST">
                             @csrf
                             @method('POST')
 
                             @include('pageBackEnd.pageBackEndPartner.sosmed.include.form')
 
-                            <a href="{{ route('sosmed.index') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
+                            <a href="{{ route('custom.link.index') }}" class="btn btn-secondary">{{ __('Kembali') }}</a>
 
                             <button type="submit" class="btn btn-primary">{{ __('Simpan') }}</button>
                         </form>

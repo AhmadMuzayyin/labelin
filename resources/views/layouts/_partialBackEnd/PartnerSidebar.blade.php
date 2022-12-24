@@ -71,11 +71,11 @@
                 </a>
             </div>
             <div class="menu-item">
-                <a href="{{ route('sosmed.index') }}" class="menu-link">
+                <a href="{{ route('custom.link.index') }}" class="menu-link">
                     <div class="menu-icon">
                         <i class="fa fa-share-nodes" aria-hidden="true"></i>
                     </div>
-                    <div class="menu-text">Sosmed</div>
+                    <div class="menu-text">Custom Link Resmi</div>
                 </a>
             </div>
             <div class="menu-item">

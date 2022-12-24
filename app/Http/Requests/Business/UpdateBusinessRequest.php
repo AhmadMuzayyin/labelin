@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Business;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateBusinessRequest extends FormRequest
@@ -24,11 +25,11 @@ class UpdateBusinessRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|min:1|max:20|unique:businesses,code',
+            'code' => 'required|string|min:1', Rule::unique('Businesses')->ignore($this->business->id, 'id'),
             'name' => 'required|string|min:1|max:100',
             'partner_id' => 'required|string',
             'brand' => 'required|string|min:1|max:100',
-            'logo' => 'required|image|max:1024|mimes:png',
+            'logo' => 'image|max:1024|mimes:png',
             'manufacture' => 'required|string|min:1|max:255',
             'video' => 'max:3050|mimes:mp4',
         ];

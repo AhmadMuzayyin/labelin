@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Backend\TypeQrController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ScanProdukController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +19,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/type-qrs/{id}/price', [TypeQrController::class, 'getPrice'])->name('type-qrs.price');
+Route::get('/scan/{id}', [ScanProdukController::class, 'scan']);
+Route::post('/verify', [ScanProdukController::class, 'verify']);
+Route::post('/rating', [ScanProdukController::class, 'rating']);
+Route::post('/report/{id}', [ScanProdukController::class, 'report']);
+Route::post('/coba', function () {
+    return response()->json('oke', 200);
+});

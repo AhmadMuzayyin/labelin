@@ -6,7 +6,7 @@
 <script src="{{ asset('template/backend/assets/js/app.min.js') }}" type="ac4260cbb75c0f083a46ae98-text/javascript"></script>
 <script src="{{ asset('template/backend/assets/rocket-loader.min.js') }}"
     data-cf-settings="ac4260cbb75c0f083a46ae98-|49" defer=""></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.5.1/sweetalert2.all.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>

@@ -9,9 +9,9 @@
                 class="form-control" required>
                 <option value="" selected disabled>-- {{ __('Select product') }} --</option>
                 @foreach ($products as $product)
-                    <option value="{{ $product->id }}"
-                        {{ isset($requestQr) && $requestQr->product_id == $product->id ? 'selected' : (old('product_id') == $product->id ? 'selected' : '') }}>
-                        {{ $product->code . ' - ' . $product->name }}
+                    <option value="{{ $product->id_produk }}"
+                        {{ isset($requestQr) && $requestQr->product_id == $product->id_produk ? 'selected' : (old('product_id') == $product->id_produk ? 'selected' : '') }}>
+                        {{ $product->nama_partner . ' - ' . $product->nama_produk }}
                     </option>
                 @endforeach
             </select>
@@ -28,10 +28,10 @@
             <select class="form-select @error('type_qr_id') is-invalid @enderror" name="type_qr_id" id="type-qr-id"
                 class="form-control" required>
                 <option value="" selected disabled>-- {{ __('Select type qr') }} --</option>
-                @foreach ($typeQrs as $typeQr)
-                    <option value="{{ $typeQr->id }}"
-                        {{ isset($requestQr) && $requestQr->type_qr_id == $typeQr->id ? 'selected' : (old('type_qr_id') == $typeQr->id ? 'selected' : '') }}>
-                        {{ $typeQr->name }}
+                @foreach ($typeQrs as $item)
+                    <option value="{{ $item->id }}"
+                        {{ isset($requestQr) && $requestQr->type_qr_id == $item->id ? 'selected' : (old('type_qr_id') == $item->id ? 'selected' : '') }}>
+                        {{ $item->name }}
                     </option>
                 @endforeach
             </select>
@@ -47,15 +47,15 @@
             <div class="col-md-4 mb-3">
                 <div class="form-group">
                     <label for="harga-pcs">Harga Satuan</label>
-                    <input readonly type="number" name="harga_pcs" id="harga-pcs" class="form-control"
-                        value="{{ isset($requestQr) ? $requestQr->type_qr->price : '' }}" required />
+                    <input type="number" name="harga_pcs" id="harga-pcs" class="form-control" value="{{ isset($requestQr) ? $requestQr->harga_satuan : old('qty') }}" required />
                 </div>
             </div>
             <div class="col-md-4 mb-3">
                 <div class="form-group">
-                    <label for="qty">{{ __('Qty') }} <span style="color: red"> (Min 50) - (Max 10.000)</span> </label>
+                    <label for="qty">{{ __('Qty') }} <span style="color: red"> (Min 50) - (Max 100.000)</span>
+                    </label>
                     <input type="number" name="qty" id="qty"
-                        class="form-control @error('qty') is-invalid @enderror" min="50" max="10000"
+                        class="form-control @error('qty') is-invalid @enderror" min="50" max="100000"
                         value="{{ isset($requestQr) ? $requestQr->qty : old('qty') }}"
                         placeholder="{{ __('Qty') }}" required />
                     @error('qty')
@@ -92,23 +92,14 @@
 </div>
 @push('js')
     <script>
-        $('#type-qr-id').on('change', function(e) {
-            $.ajax({
-                url: `/api/type-qrs/${$(this).val()}/price`,
-                method: 'GET',
-                success: function(res) {
-                    $('#harga-pcs').val(res.type_qr.price)
-
-                    calculateTotal()
-                }
-            })
-        })
-
+        $(document).ready(function() {
+            $('#product-id').select2();
+        });
         $('#qty').on('keypress blur change keydown keyup', function(e) {
             calculateTotal()
         })
 
-        function calculateTotal(){
+        function calculateTotal() {
             let qty = parseInt($('#qty').val())
             let total = $('#amount-price')
             let harga = $('#harga-pcs').val()

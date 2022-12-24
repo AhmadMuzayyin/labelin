@@ -22,45 +22,34 @@ class ProductController extends Controller
         // $this->middleware('permission:product_detail')->only('show');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if (request()->ajax()) {
-        $products = Product::with('category:id,name', 'business:id,name')->where('partner_id', session()->get('id-partner'));
+            $products = Product::with('category:id,name', 'business:id,name')->where('partner_id', session()->get('id-partner'));
 
-        return Datatables::of($products)
-            ->addIndexColumn()
-            ->addColumn('description', function ($row) {
-                return str($row->description)->limit(100);
-            })
-            ->addColumn('category', function ($row) {
-                return $row->category ? $row->category->name : '';
-            })
-            ->addColumn('business', function ($row) {
-                return $row->business ? $row->business->name : '';
-            })
-            ->addColumn('photo', function ($row) {
-                if ($row->photo == null) {
-                    return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
-                }
-                return asset('storage/uploads/photos/' . $row->photo);
-            })
-            ->addColumn('action', 'pageBackEnd.pageBackEndPartner.products.include.action')
-            ->toJson();
+            return Datatables::of($products)
+                ->addIndexColumn()
+                ->addColumn('description', function ($row) {
+                    return str($row->description)->limit(100);
+                })
+                ->addColumn('category', function ($row) {
+                    return $row->category ? $row->category->name : '';
+                })
+                ->addColumn('business', function ($row) {
+                    return $row->business ? $row->business->name : '';
+                })
+                ->addColumn('photo', function ($row) {
+                    if ($row->photo == null) {
+                        return 'https://via.placeholder.com/350?text=No+Image+Avaiable';
+                    }
+                    return asset('storage/uploads/photos/' . $row->photo);
+                })
+                ->addColumn('action', 'pageBackEnd.pageBackEndPartner.products.include.action')
+                ->toJson();
         }
 
         return view('pageBackEnd.pageBackEndPartner.products.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $categories = Category::select('id', 'code', 'name')->orderBy('id')->limit(500)->get();
@@ -70,12 +59,6 @@ class ProductController extends Controller
         return view('pageBackEnd.pageBackEndPartner.products.create', compact('categories', 'businessPartners'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreProductRequest $request)
     {
         $attr = $request->validated();
@@ -98,7 +81,6 @@ class ProductController extends Controller
 
             $attr['photo'] = $filename;
         }
-
         Product::create($attr);
 
         Alert::toast('Data berhasil disimpan', 'success');
@@ -139,8 +121,8 @@ class ProductController extends Controller
 
         $categories = Category::select('id', 'code', 'name')->orderBy('id')->limit(500)->get();
         $businessPartners = Business::where('partner_id', Session::get('id-partner'))
-        ->orderBy('name')
-        ->get();
+            ->orderBy('name')
+            ->get();
 
         return view('pageBackEnd.pageBackEndPartner.products.edit', compact('product', 'categories', 'businessPartners'));
     }
